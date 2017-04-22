@@ -220,8 +220,9 @@ public abstract class Model {
    * @see "Practical Scalability Analysis with the Universal Scalability Law, Equation 10"
    */
   public double concurrencyAtLatency(double r) {
-    return (kappa() - sigma() + sqrt(pow(sigma(), 2) + pow(kappa(), 2) +
-        (2 * kappa() * ((2 * lambda() * r) + sigma() - 2)))) / (2 * kappa());
+    final double a = (2 * kappa() * ((2 * lambda() * r) + sigma() - 2));
+    final double b = sqrt(pow(sigma(), 2) + pow(kappa(), 2) + a);
+    return (kappa() - sigma() + b) / (2 * kappa());
   }
 
   /**
