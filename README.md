@@ -15,7 +15,7 @@ capacity planning.
 </dependency>
 ```
 
-It depends on the [Efficient Java Matrix Libray](https://github.com/lessthanoptimal/ejml) for matrix
+It depends on the [Efficient Java Matrix Library](https://github.com/lessthanoptimal/ejml) for matrix
 operations. If someone has a less funky way to emulate [R's `nls`
 function](https://github.com/smoeding/usl), I'd love to hear about it.
 
