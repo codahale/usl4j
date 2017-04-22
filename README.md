@@ -57,7 +57,8 @@ class Example {
   void buildModel() {
     double[][] points = {{1, 4227}, {2, 8382}, {4, 16479}}; // etc.
   
-    // map the points to measurements of throughput and build a model
+    // Map the points to measurements of throughput and build a model. If you'd measured average
+    // response times instead of throughput, you could use Measurement::latency.
     Model model = Arrays.stream(points).map(Measurement::throughput).collect(Model.toModel());
     
     for (int i = 10; i < 200; i++) {
