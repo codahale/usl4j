@@ -75,7 +75,7 @@ public abstract class Measurement {
   /**
    * The number of concurrent workers at the time of measurement.
    *
-   * @return the number of concurrent workers
+   * @return {@code N}
    */
   public double concurrency() {
     return x();
@@ -84,7 +84,7 @@ public abstract class Measurement {
   /**
    * The throughput of events at the time of measurement.
    *
-   * @return the throughput
+   * @return {@code X}
    */
   public double throughput() {
     return y();
@@ -93,7 +93,7 @@ public abstract class Measurement {
   /**
    * The mean latency at the time of measurement.
    *
-   * @return the latency
+   * @return {@code R}
    */
   public double latency() {
     return concurrency() / throughput();
