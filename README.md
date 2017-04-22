@@ -62,7 +62,7 @@ class Example {
     Model model = Arrays.stream(points).map(Measurement::throughput).collect(Model.toModel());
     
     for (int i = 10; i < 200; i++) {
-      System.out.printf("At %d workers, expect %f req/sec", i, model.throughputAtConcurrency(i));
+      System.out.printf("At %d workers, expect %f req/sec\n", i, model.throughputAtConcurrency(i));
     }
   }
 }
