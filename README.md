@@ -15,29 +15,25 @@ capacity planning.
 </dependency>
 ```
 
-It depends on the [Efficient Java Matrix Library](https://github.com/lessthanoptimal/ejml) for matrix
-operations. If someone has a less funky way to emulate [R's `nls`
+It depends on the [Efficient Java Matrix Library](https://github.com/lessthanoptimal/ejml) for
+matrix operations. If someone has a less funky way to emulate [R's `nls`
 function](https://github.com/smoeding/usl), I'd love to hear about it.
 
 ## How to use this
 
-As an example, consider doing load testing and capacity planning for an HTTP server. To use USL, we
-must first gather a set of measurements of the system. These measurements will consist of pairs of
-simultaneous measurements of the independent and dependent variables. With an HTTP server, it might
-be tempting to use the rate as the independent variable, but this is a mistake. The rate of requests
-being handled by the server is actually itself a dependent variable of two other independent
-variables: the number of concurrent users and the rate at which users send requests.
+As an example, consider doing load testing and capacity planning for an HTTP server. To model the
+behavior of the system using the USL, you must first gather a set of measurements of the system.
+These measurements must be of two of the three parameters of [Little's
+Law](https://en.wikipedia.org/wiki/Little%27s_law): mean response time (in seconds), throughput (in
+requests per second), and concurrency (i.e. the number of concurrent clients).
 
-As we do our capacity planning, we make the observation that users of our system do ~10 req/sec.
-(Or, more commonly, we assume this based on a hunch.) By holding this constant, we leave the number
-of concurrent users as the single remaining independent variable.
+Because response time tends to be a property of load (i.e. it rises as throughput or concurrency
+rises), the dependent variable in your tests should be mean response time. This leaves either
+throughput or concurrency as your independent variable, but thanks to Little's Law it doesn't matter
+which one you use. For the purposes of discussion, let's say you measure throughput as a function of
+the number of concurrent clients working at a fixed rate (e.g. you used `wrk2`).
 
-Our load testing, then, should consist of running a series of tests with an increasing number of
-simulated users, each performing ~10 req/sec. While the number of users to test with depends heavily
-on your system, you should be testing at least six different concurrency levels. You should do one
-test with a single user in order to determine the performance of an uncontended system.
-
-After our load testing is done, we should have a set of measurements shaped like this:
+After your load testing is done, your should have a set of measurements shaped like this:
 
 |concurrency|throughput|
 |-----------|----------|
@@ -49,7 +45,7 @@ After our load testing is done, we should have a set of measurements shaped like
 |         32|    104462|
 |         64|    162985|
 
-For simplicity's sake, let's assume we're storing this as a `double[][]`. Now we can build our
+For simplicity's sake, let's assume your're storing this as a `double[][]`. Now you can build our
 model and begin estimating things:
 
 ```java
