@@ -113,11 +113,11 @@ public abstract class Measurement {
 
   // wrapper methods to simplify code in Model
 
-  double x() {
+  double n() {
     return concurrency();
   }
 
-  double y() {
+  double x() {
     return throughput();
   }
 }

@@ -41,6 +41,7 @@ import org.ejml.ops.CommonOps;
 public abstract class Model {
 
   private static final int MIN_MEASUREMENTS = 6;
+  private static final int DEGREE = 3;
 
   /**
    * A collector which will convert a stream of {@link Measurement} instances into a {@link Model}.
@@ -79,53 +80,50 @@ public abstract class Model {
 
     // make a sorted copy of the measurements
     final List<Measurement> points = measurements.stream()
-                                                 .sorted(Comparator.comparingDouble(Measurement::x))
+                                                 .sorted(Comparator.comparingDouble(Measurement::n))
                                                  .collect(Collectors.toList());
-    final double lambda = points.get(0).y() / points.get(0).x();
+    final double lambda = points.get(0).x() / points.get(0).n();
 
+    final double[] ns = new double[points.size()];
     final double[] xs = new double[points.size()];
-    final double[] ys = new double[points.size()];
 
     for (int i = 0; i < points.size(); i++) {
       final Measurement m = points.get(i);
-      xs[i] = m.x() - 1;
-      ys[i] = (m.x() / (m.y() / lambda)) - 1;
+      ns[i] = m.n() - 1;
+      xs[i] = (m.n() / (m.x() / lambda)) - 1;
     }
 
-    final double[] c = new double[3];
-
-    final DenseMatrix64F x = new DenseMatrix64F(xs.length, c.length);
-    for (int i = 0; i < xs.length; i++) {
+    final DenseMatrix64F n = new DenseMatrix64F(ns.length, DEGREE);
+    for (int i = 0; i < ns.length; i++) {
       double ip = 1.0;
-      for (int j = 0; j < c.length; j++) {
-        x.set(i, j, ip);
-        ip *= xs[i];
+      for (int j = 0; j < DEGREE; j++) {
+        n.set(i, j, ip);
+        ip *= ns[i];
       }
     }
 
-    final QRDecomposition<DenseMatrix64F> qr = DecompositionFactory.qr(ys.length, 1);
-    if (!qr.decompose(x)) {
-      throw new IllegalStateException("it's terrible");
+    final QRDecomposition<DenseMatrix64F> qr = DecompositionFactory.qr(xs.length, 1);
+    if (!qr.decompose(n)) {
+      throw new IllegalArgumentException("Unable to fit to tbe USL");
     }
 
     final DenseMatrix64F q = qr.getQ(null, true);
     final DenseMatrix64F r = qr.getR(null, false);
 
     CommonOps.transpose(q);
-    final DenseMatrix64F qty = new DenseMatrix64F(3, 1, false, new double[3]);
-    CommonOps.mult(q, new DenseMatrix64F(ys.length, 1, true, ys), qty);
+    final DenseMatrix64F qty = new DenseMatrix64F(DEGREE, 1, false, new double[DEGREE]);
+    CommonOps.mult(q, new DenseMatrix64F(xs.length, 1, true, xs), qty);
 
-    for (int i = c.length - 1; i >= 0; i--) {
-      c[i] = qty.get(i, 0);
-      for (int j = i + 1; j < c.length; j++) {
-        c[i] -= c[j] * r.get(i, j);
+    final double[] coefficients = new double[DEGREE];
+    for (int i = coefficients.length - 1; i >= 0; i--) {
+      coefficients[i] = qty.get(i, 0);
+      for (int j = i + 1; j < coefficients.length; j++) {
+        coefficients[i] -= coefficients[j] * r.get(i, j);
       }
-      c[i] /= r.get(i, i);
+      coefficients[i] /= r.get(i, i);
     }
 
-    final double sigma = abs(c[2] - c[1]);
-    final double kappa = abs(c[2]);
-    return Model.of(sigma, kappa, lambda);
+    return Model.of(abs(coefficients[2] - coefficients[1]), abs(coefficients[2]), lambda);
   }
 
   /**
