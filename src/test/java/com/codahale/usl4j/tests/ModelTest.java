@@ -28,11 +28,8 @@ import org.junit.Test;
 public class ModelTest {
 
   static final Offset<Double> EPSILON = Offset.offset(0.00001);
+
   // data of Cisco benchmark from Practical Scalability by Baron Schwartz
-//    // SPEC benchmark for NFS on Isilon S210
-//    final double[][] points = {
-//        {25504, 0.7}, {51054, 0.6}, {76667, 0.7}, {102288, 0.8}, {127879, 0.9}, {153497, 1.0},
-//        {179261, 1.2}, {205226, 1.4}, {231069, 2.0}, {253357, 5.7}};
   private static final double[][] CISCO = {
       {1, 955.16}, {2, 1878.91}, {3, 2688.01}, {4, 3548.68}, {5, 4315, 54}, {6, 5130.43},
       {7, 5931.37}, {8, 6531.08}, {9, 7219.8}, {10, 7867.61}, {11, 8278.71}, {12, 8646.7},
