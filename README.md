@@ -15,6 +15,10 @@ capacity planning.
 </dependency>
 ```
 
+It depends on the [Efficient Java Matrix Libray](https://github.com/lessthanoptimal/ejml) for matrix
+operations. If someone has a less funky way to emulate [R's `nls`
+function](https://github.com/smoeding/usl), I'd love to hear about it.
+
 ## How to use this
 
 As an example, consider doing load testing and capacity planning for an HTTP server. To use USL, we
