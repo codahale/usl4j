@@ -18,7 +18,8 @@ import com.google.auto.value.AutoValue;
 import javax.annotation.concurrent.Immutable;
 
 /**
- * A measurement of a system's throughput at a given level of concurrency.
+ * A measurement of a system's throughput and/or mean latency at a given level of concurrency (i.e.
+ * the number of concurrent workers is the independent variable).
  */
 @AutoValue
 @Immutable
@@ -68,10 +69,6 @@ public abstract class Measurement {
     return latency(point[0], point[1]);
   }
 
-  abstract double x();
-
-  abstract double y();
-
   /**
    * The number of concurrent workers at the time of measurement.
    *
@@ -98,4 +95,8 @@ public abstract class Measurement {
   public double latency() {
     return concurrency() / throughput();
   }
+
+  abstract double x();
+
+  abstract double y();
 }
