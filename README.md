@@ -11,7 +11,7 @@ capacity planning.
 <dependency>
   <groupId>com.codahale</groupId>
   <artifactId>usl4j</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
 </dependency>
 ```
 
