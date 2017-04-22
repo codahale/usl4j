@@ -42,8 +42,9 @@ public class ModelTest {
 
   @Test
   public void build() throws Exception {
-    Model other = Model.build(Arrays.stream(CISCO).map(Measurement::ofConcurrencyAndThroughput)
-                                    .collect(Collectors.toList()));
+    final Model other = Model.build(Arrays.stream(CISCO)
+                                          .map(Measurement::ofConcurrencyAndThroughput)
+                                          .collect(Collectors.toList()));
     assertThat(other.sigma())
         .isCloseTo(model.sigma(), EPSILON);
 
