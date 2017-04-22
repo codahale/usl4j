@@ -18,8 +18,8 @@ import com.google.auto.value.AutoValue;
 import javax.annotation.concurrent.Immutable;
 
 /**
- * A measurement of a system's throughput and/or mean latency at a given level of concurrency (i.e.
- * the number of concurrent workers is the independent variable).
+ * A measurement of a system's concurrency, throughput, and latency. Given any two properties, the
+ * third will be calculated via Little's Law.
  */
 @AutoValue
 @Immutable
@@ -32,7 +32,7 @@ public abstract class Measurement {
    * @param throughput the throughput, in events per second
    * @return a {@link Measurement}
    */
-  public static Measurement throughput(double concurrency, double throughput) {
+  public static Measurement ofConcurrencyAndThroughput(double concurrency, double throughput) {
     return new AutoValue_Measurement(concurrency, throughput);
   }
 
@@ -41,32 +41,53 @@ public abstract class Measurement {
    *
    * @param point an array of concurrency/throughput pairs
    * @return a {@link Measurement}
-   * @see #throughput(double, double)
+   * @see #ofConcurrencyAndThroughput(double, double)
    */
-  public static Measurement throughput(double[] point) {
-    return throughput(point[0], point[1]);
+  public static Measurement ofConcurrencyAndThroughput(double[] point) {
+    return ofConcurrencyAndThroughput(point[0], point[1]);
   }
 
   /**
-   * A {@link Measurement} of a system's throughput with a mean latency
+   * A {@link Measurement} of a system's throughput with a mean latency.
    *
    * @param concurrency the number of concurrent workers
    * @param latency the mean latency, in seconds
    * @return a {@link Measurement}
    */
-  public static Measurement latency(double concurrency, double latency) {
-    return throughput(concurrency, concurrency / latency);
+  public static Measurement ofConcurrencyAndLatency(double concurrency, double latency) {
+    return ofConcurrencyAndThroughput(concurrency, concurrency / latency);
   }
 
   /**
-   * A {@link Measurement} of a system's throughput with a mean latency
+   * A {@link Measurement} of a system's throughput with a mean latency.
    *
    * @param point an array of concurrency/latency pairs
    * @return a {@link Measurement}
-   * @see #latency(double, double)
+   * @see #ofConcurrencyAndLatency(double, double)
    */
-  public static Measurement latency(double[] point) {
-    return latency(point[0], point[1]);
+  public static Measurement ofConcurrencyAndLatency(double[] point) {
+    return ofConcurrencyAndLatency(point[0], point[1]);
+  }
+
+  /**
+   * A {@link Measurement} of a system's latency at a given throughput.
+   *
+   * @param throughput the throughput, in events per second
+   * @param latency the mean latency, in seconds
+   * @return a {@link Measurement}
+   */
+  public static Measurement ofThroughputAndLatency(double throughput, double latency) {
+    return ofConcurrencyAndLatency(throughput * latency, latency);
+  }
+
+  /**
+   * A {@link Measurement} of a system's latency at a given throughput.
+   *
+   * @param points an array of throughput/latency points
+   * @return a {@link Measurement}
+   */
+  public static Measurement ofThroughputAndLatency(double[] points) {
+    return ofThroughputAndLatency(points[0], points[1]);
   }
 
   /**

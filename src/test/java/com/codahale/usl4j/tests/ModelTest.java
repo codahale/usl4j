@@ -37,13 +37,13 @@ public class ModelTest {
       {19, 10532.39}, {20, 10798.52}, {21, 11151.43}, {22, 11518.63}, {23, 11806}, {24, 12089.37},
       {25, 12075.41}, {26, 12177.29}, {27, 12211.41}, {28, 12158.93}, {29, 12155.27},
       {30, 12118.04}, {31, 12140.4}, {32, 12074.39}};
-  private final Model model = Arrays.stream(CISCO).map(Measurement::throughput)
+  private final Model model = Arrays.stream(CISCO).map(Measurement::ofConcurrencyAndThroughput)
                                     .collect(Model.toModel());
 
   @Test
   public void build() throws Exception {
-    final Model other = Model.build(Arrays.stream(CISCO).map(Measurement::throughput)
-                                          .collect(Collectors.toList()));
+    Model other = Model.build(Arrays.stream(CISCO).map(Measurement::ofConcurrencyAndThroughput)
+                                    .collect(Collectors.toList()));
     assertThat(other.sigma())
         .isCloseTo(model.sigma(), EPSILON);
 
@@ -150,7 +150,7 @@ public class ModelTest {
   public void concurrencyAtLatency() throws Exception {
     // going off page 30-31
     final Model model = Arrays.stream(CISCO).limit(10)
-                              .map(Measurement::throughput)
+                              .map(Measurement::ofConcurrencyAndThroughput)
                               .collect(Model.toModel());
     assertThat(model.concurrencyAtLatency(0.0012))
         .isCloseTo(6.631449066811858, EPSILON);

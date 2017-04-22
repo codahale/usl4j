@@ -22,7 +22,7 @@ import org.junit.Test;
 
 public class MeasurementTest {
 
-  private final Measurement measurement = Measurement.throughput(3, 5);
+  private final Measurement measurement = Measurement.ofConcurrencyAndThroughput(3, 5);
 
   @Test
   public void concurrency() throws Exception {
@@ -44,12 +44,23 @@ public class MeasurementTest {
 
   @Test
   public void latencyMeasurement() throws Exception {
-    final Measurement a = Measurement.latency(3, 0.6);
+    final Measurement a = Measurement.ofConcurrencyAndLatency(3, 0.6);
     assertThat(a.throughput())
         .isCloseTo(5, EPSILON);
 
-    final Measurement b = Measurement.latency(new double[]{3, 0.6});
+    final Measurement b = Measurement.ofConcurrencyAndLatency(new double[]{3, 0.6});
     assertThat(b.throughput())
         .isCloseTo(5, EPSILON);
+  }
+
+  @Test
+  public void throughputMeasurement() throws Exception {
+    final Measurement a = Measurement.ofThroughputAndLatency(5, 0.6);
+    assertThat(a.concurrency())
+        .isCloseTo(3, EPSILON);
+
+    final Measurement b = Measurement.ofThroughputAndLatency(new double[]{5, 0.6});
+    assertThat(b.concurrency())
+        .isCloseTo(3, EPSILON);
   }
 }
