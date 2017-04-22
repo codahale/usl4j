@@ -11,7 +11,7 @@ capacity planning.
 <dependency>
   <groupId>com.codahale</groupId>
   <artifactId>usl4j</artifactId>
-  <version>0.1.1</version>
+  <version>0.2.1</version>
 </dependency>
 ```
 
@@ -59,12 +59,14 @@ import java.util.Arrays;
 
 class Example {
   void buildModel() {
-    double[][] points = {{1, 4227}, {2, 8382}, {4, 16479}}; // etc.
+    final double[][] points = {{1, 4227}, {2, 8382}, {4, 16479}}; // etc.
   
     // Map the points to measurements of throughput and build a model. If you'd measured mean
-    // response times instead of throughput, you could use Measurement::latency.
-    Model model = Arrays.stream(points).map(Measurement::throughput).collect(Model.toModel());
-    
+    // response times instead of throughput, you could use Measurement::ofConcurrencyAndLatency or
+    // even Measurement::ofThroughputAndLatency.
+    final Model model = Arrays.stream(points)
+                              .map(Measurement::ofConcurrencyAndThroughput)
+                              .collect(Model.toModel());
     for (int i = 10; i < 200; i++) {
       System.out.printf("At %d workers, expect %f req/sec\n", i, model.throughputAtConcurrency(i));
     }
