@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import org.ejml.data.DenseMatrix64F;
@@ -72,12 +73,14 @@ public abstract class Model {
    * @return a {@link Model} instance
    */
   public static Model build(@Nonnull Collection<Measurement> measurements) {
-    final List<Measurement> points = new ArrayList<>(measurements);
-    if (points.size() < MIN_MEASUREMENTS) {
-      throw new IllegalStateException("Needs at least 6 measurements");
+    if (measurements.size() < MIN_MEASUREMENTS) {
+      throw new IllegalArgumentException("Needs at least 6 measurements");
     }
 
-    points.sort(Comparator.comparingDouble(Measurement::x));
+    // make a sorted copy of the measurements
+    final List<Measurement> points = measurements.stream()
+                                                 .sorted(Comparator.comparingDouble(Measurement::x))
+                                                 .collect(Collectors.toList());
     final double lambda = points.get(0).y() / points.get(0).x();
 
     final double[] xs = new double[points.size()];

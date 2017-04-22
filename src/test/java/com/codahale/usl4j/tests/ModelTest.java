@@ -15,10 +15,12 @@
 package com.codahale.usl4j.tests;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.codahale.usl4j.Measurement;
 import com.codahale.usl4j.Model;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.stream.Collectors;
 import org.assertj.core.data.Offset;
 import org.junit.Test;
@@ -47,6 +49,10 @@ public class ModelTest {
                                           .collect(Collectors.toList()));
     assertThat(other.sigma())
         .isCloseTo(model.sigma(), EPSILON);
+
+    assertThatThrownBy(() -> Model.build(Collections.emptyList()))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("Needs at least 6 measurements");
   }
 
   @Test
