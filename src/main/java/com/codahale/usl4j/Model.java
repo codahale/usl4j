@@ -91,7 +91,6 @@ public abstract class Model {
 
     final double[] c = new double[3];
 
-    final DenseMatrix64F y = new DenseMatrix64F(ys.length, 1, true, ys);
     final DenseMatrix64F x = new DenseMatrix64F(xs.length, c.length);
     for (int i = 0; i < xs.length; i++) {
       double ip = 1.0;
@@ -111,7 +110,7 @@ public abstract class Model {
 
     CommonOps.transpose(q);
     final DenseMatrix64F qty = new DenseMatrix64F(3, 1, false, new double[3]);
-    CommonOps.mult(q, y, qty);
+    CommonOps.mult(q, new DenseMatrix64F(ys.length, 1, true, ys), qty);
 
     for (int i = c.length - 1; i >= 0; i--) {
       c[i] = qty.get(i, 0);
