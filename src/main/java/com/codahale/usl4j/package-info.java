@@ -14,8 +14,8 @@
 
 /**
  * The {@code com.codahale.usl4j} package provides classes for recording measurements of throughput,
- * concurrency, and latency of running systems (e.g. databases, web applications, etc.) and building
- * a fitted Universal Scalability Law model from them which can be used to predict bottlenecks, plan
- * capacity, and evaluate SLAs.
+ * concurrency, and mean latency of running systems (e.g. databases, web applications, etc.) and
+ * building a fitted Universal Scalability Law model from them which can be used to predict
+ * bottlenecks, plan capacity, and evaluate SLAs.
  */
 package com.codahale.usl4j;

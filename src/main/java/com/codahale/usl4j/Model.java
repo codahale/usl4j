@@ -161,7 +161,7 @@ public abstract class Model {
   }
 
   /**
-   * The expected latency given a number of concurrent workers.
+   * The expected mean latency given a number of concurrent workers.
    *
    * @param n the number of concurrent workers
    * @return {@code R(N)}
@@ -191,7 +191,7 @@ public abstract class Model {
   }
 
   /**
-   * The expected average latency given a throughput.
+   * The expected mean latency given a throughput.
    *
    * @param x the throughput of requests
    * @return {@code R(X)}
@@ -202,9 +202,9 @@ public abstract class Model {
   }
 
   /**
-   * The expected throughput given an average latency.
+   * The expected throughput given a mean latency.
    *
-   * @param r the average latency of requests
+   * @param r the mean latency of requests
    * @return {@code X(R)}
    * @see "Practical Scalability Analysis with the Universal Scalability Law, Equation 9"
    */
@@ -215,9 +215,9 @@ public abstract class Model {
   }
 
   /**
-   * The expected number of concurrent workers given an average latency.
+   * The expected number of concurrent workers given a mean latency.
    *
-   * @param r the average latency of requests
+   * @param r the mean latency of requests
    * @return {@code N(R)}
    * @see "Practical Scalability Analysis with the Universal Scalability Law, Equation 10"
    */
@@ -240,7 +240,7 @@ public abstract class Model {
   /**
    * Whether or not the system is constrained by coherency costs.
    *
-   * @return σ {@code <} κ
+   * @return σ {@literal <} κ
    */
   public boolean isCoherencyConstrained() {
     return sigma() < kappa();
@@ -249,7 +249,7 @@ public abstract class Model {
   /**
    * Whether or not the system is constrained by contention.
    *
-   * @return σ {@code >} κ
+   * @return σ {@literal >} κ
    */
   public boolean isContentionConstrained() {
     return sigma() > kappa();
@@ -258,7 +258,7 @@ public abstract class Model {
   /**
    * Whether or not the system is linearly scalable.
    *
-   * @return κ {@code == 0}
+   * @return κ = 0
    */
   public boolean isLimitless() {
     return kappa() == 0;
