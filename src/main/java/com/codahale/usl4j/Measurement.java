@@ -33,7 +33,7 @@ public abstract class Measurement {
    * @return a {@link Measurement}
    */
   public static Measurement ofConcurrencyAndThroughput(double concurrency, double throughput) {
-    return new AutoValue_Measurement(concurrency, throughput);
+    return new AutoValue_Measurement(concurrency, throughput, concurrency / throughput);
   }
 
   /**
@@ -55,7 +55,7 @@ public abstract class Measurement {
    * @return a {@link Measurement}
    */
   public static Measurement ofConcurrencyAndLatency(double concurrency, double latency) {
-    return ofConcurrencyAndThroughput(concurrency, concurrency / latency);
+    return new AutoValue_Measurement(concurrency, concurrency / latency, latency);
   }
 
   /**
@@ -77,7 +77,7 @@ public abstract class Measurement {
    * @return a {@link Measurement}
    */
   public static Measurement ofThroughputAndLatency(double throughput, double latency) {
-    return ofConcurrencyAndLatency(throughput * latency, latency);
+    return new AutoValue_Measurement(throughput * latency, throughput, latency);
   }
 
   /**
@@ -95,29 +95,29 @@ public abstract class Measurement {
    *
    * @return {@code N}
    */
-  public double concurrency() {
-    return x();
-  }
+  public abstract double concurrency();
 
   /**
    * The throughput of events at the time of measurement.
    *
    * @return {@code X}
    */
-  public double throughput() {
-    return y();
-  }
+  public abstract double throughput();
 
   /**
    * The mean latency at the time of measurement.
    *
    * @return {@code R}
    */
-  public double latency() {
-    return concurrency() / throughput();
+  public abstract double latency();
+
+  // wrapper methods to simplify code in Model
+
+  double x() {
+    return concurrency();
   }
 
-  abstract double x();
-
-  abstract double y();
+  double y() {
+    return throughput();
+  }
 }
