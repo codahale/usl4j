@@ -75,8 +75,8 @@ class Example {
 I strongly recommend [Practical Scalability Analysis with the Universal Scalability Law][PSA], a
 free e-book by [Baron Schwartz][BS], author of [High Performance MySQL][MySQL] and CEO of
 [VividCortex][VC]. Trying to use this library without actually understanding the concepts behind
-[Little's Law][LL], Amdahl's Law, and the Universal Scalability Law will be difficult and
-potentially misleading.
+[Little's Law][LL], [Amdahl's Law][AL], and the [Universal Scalability Law][USL] will be difficult
+and potentially misleading.
 
 ## License
 
@@ -84,6 +84,7 @@ Copyright © 2017 Coda Hale
 
 Distributed under the Apache License 2.0.
 
+[AL]: https://en.wikipedia.org/wiki/Amdahl%27s_law
 [LL]: https://en.wikipedia.org/wiki/Little%27s_law
 [PSA]: https://www.vividcortex.com/resources/universal-scalability-law/
 [USL]: http://www.perfdynamics.com/Manifesto/USLscalability.html
