@@ -69,6 +69,9 @@ public abstract class Model {
 
   /**
    * Given a collection of measurements, builds a {@link Model}.
+   * <p>
+   * Finds a set of coefficients for the equation y = λx/(1+σ(x-1)+κx(x-1)). The resulting values
+   * for λ, κ, and σ are the parameters of the returned {@link Model}.
    *
    * @param measurements a collection of measurements
    * @return a {@link Model} instance
@@ -78,7 +81,22 @@ public abstract class Model {
       throw new IllegalArgumentException("Needs at least 6 measurements");
     }
 
-    // make a sorted copy of the measurements
+    // This is not particularly pleasant code, nor is it code that I'm deeply in love with. We're
+    // basically doing our own non-linear solving using a QR transform, but I would very much like
+    // it if this could be closer to Stefan Moeding's R version:
+    //
+    //    sf.max <- max(model$y / model$x)
+    //    model.fit <- nls(y ~ X1 * x/(1 + sigma * (x-1) + kappa * x * (x-1)),
+    //        data = model,
+    //        start = c(X1 = sf.max, sigma = 0.1, kappa = 0.01),
+    //        algorithm = "port",
+    //        lower = c(X1 = 0, sigma = 0, kappa = 0),
+    //        upper = c(X1 = Inf, sigma = 1, kappa = 1))
+    //
+    // This would also allow us to determine λ via regression, as well, instead of hoping the
+    // measurement with the lowest concurrency is typical of the system's unloaded behavior. I can't
+    // find a Java library which does this, though, so here's a big mess I don't fully understand:
+
     final List<Measurement> points = measurements.stream()
                                                  .sorted(Comparator.comparingDouble(Measurement::n))
                                                  .collect(Collectors.toList());
