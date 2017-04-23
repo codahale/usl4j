@@ -110,14 +110,4 @@ public abstract class Measurement {
    * @return {@code R}
    */
   public abstract double latency();
-
-  // wrapper methods to simplify code in Model
-
-  double n() {
-    return concurrency();
-  }
-
-  double x() {
-    return throughput();
-  }
 }

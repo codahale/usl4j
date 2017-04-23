@@ -12,12 +12,11 @@ Analysis with the Universal Scalability Law][PSA].
 <dependency>
   <groupId>com.codahale</groupId>
   <artifactId>usl4j</artifactId>
-  <version>0.2.1</version>
+  <version>0.3.0</version>
 </dependency>
 ```
 
-It depends on the [Efficient Java Matrix Library][EJML] for matrix operations. If someone has a less
-funky way to emulate [R's `nls` function][USL-R], I'd love to hear about it.
+It depends on [DDogleg Numerics][DDN] for least-squares regression.
 
 ## How to use this
 
@@ -64,7 +63,7 @@ class Example {
     final Model model = Arrays.stream(points)
                               .map(Measurement::ofConcurrencyAndThroughput)
                               .collect(Model.toModel());
-    for (int i = 10; i < 200; i++) {
+    for (int i = 10; i < 200; i+=10) {
       System.out.printf("At %d workers, expect %f req/sec\n", i, model.throughputAtConcurrency(i));
     }
   }
@@ -91,6 +90,6 @@ Distributed under the Apache License 2.0.
 [BS]: https://www.xaprb.com/
 [MySQL]: http://shop.oreilly.com/product/0636920022343.do
 [VC]: https://www.vividcortex.com/
-[EJML]: https://github.com/lessthanoptimal/ejml
+[DLN]: http://ddogleg.org/
 [USL-R]: https://github.com/smoeding/usl
 [wrk2]: https://github.com/giltene/wrk2

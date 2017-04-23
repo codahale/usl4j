@@ -55,32 +55,35 @@ public class ModelTest {
 
   @Test
   public void sigma() throws Exception {
+    // listed as 0.02671591 in the book
     assertThat(model.sigma())
-        .isCloseTo(0.021298245147999852, EPSILON);
+        .isCloseTo(0.026712125737748685, EPSILON);
   }
 
   @Test
   public void kappa() throws Exception {
+    // listed as 7.690945E-4 in the book
     assertThat(model.kappa())
-        .isCloseTo(8.535107927465425E-4, EPSILON);
+        .isCloseTo(7.691446539186244E-4, EPSILON);
   }
 
   @Test
   public void lambda() throws Exception {
+    // listed as 995.6486 in the book
     assertThat(model.lambda())
-        .isCloseTo(955.16, EPSILON);
+        .isCloseTo(995.620763770714, EPSILON);
   }
 
   @Test
   public void maxConcurrency() throws Exception {
     assertThat(model.maxConcurrency())
-        .isCloseTo(33, EPSILON);
+        .isCloseTo(35, EPSILON);
   }
 
   @Test
   public void maxThroughput() throws Exception {
     assertThat(model.maxThroughput())
-        .isCloseTo(12203.67611148279, EPSILON);
+        .isCloseTo(12341.702030111755, EPSILON);
   }
 
   @Test
@@ -98,31 +101,31 @@ public class ModelTest {
   @Test
   public void latencyAtConcurrency() throws Exception {
     assertThat(model.latencyAtConcurrency(1))
-        .isCloseTo(0.0010469450144478412, EPSILON);
+        .isCloseTo(0.0010043984982923623, EPSILON);
     assertThat(model.latencyAtConcurrency(20))
-        .isCloseTo(0.0018101687246698808, EPSILON);
+        .isCloseTo(0.0018077217982978785, EPSILON);
     assertThat(model.latencyAtConcurrency(35))
-        .isCloseTo(0.0028684389823698444, EPSILON);
+        .isCloseTo(0.0028359135486017784, EPSILON);
   }
 
   @Test
   public void throughputAtConcurrency() throws Exception {
     assertThat(model.throughputAtConcurrency(1))
-        .isCloseTo(955.16, EPSILON);
+        .isCloseTo(995.620763770714, EPSILON);
     assertThat(model.throughputAtConcurrency(20))
-        .isCloseTo(11048.693819216984, EPSILON);
+        .isCloseTo(11063.649295390296, EPSILON);
     assertThat(model.throughputAtConcurrency(35))
-        .isCloseTo(12201.758592432645, EPSILON);
+        .isCloseTo(12341.702030111755, EPSILON);
   }
 
   @Test
   public void concurrencyAtThroughput() throws Exception {
     assertThat(model.concurrencyAtThroughput(955))
-        .isCloseTo(0.9998286947462309, EPSILON);
+        .isCloseTo(0.9581277018657741, EPSILON);
     assertThat(model.concurrencyAtThroughput(11048))
-        .isCloseTo(15.02061822526835, EPSILON);
+        .isCloseTo(15.350185060769837, EPSILON);
     assertThat(model.concurrencyAtThroughput(12201))
-        .isCloseTo(17.1740805486809, EPSILON);
+        .isCloseTo(17.73178569077728, EPSILON);
   }
 
   @Test
@@ -154,11 +157,11 @@ public class ModelTest {
                               .map(Measurement::ofConcurrencyAndThroughput)
                               .collect(Model.toModel());
     assertThat(model.concurrencyAtLatency(0.0012))
-        .isCloseTo(6.631449066811858, EPSILON);
+        .isCloseTo(7.229893153888714, EPSILON);
     assertThat(model.concurrencyAtLatency(0.0016))
-        .isCloseTo(19.766280303025233, EPSILON);
+        .isCloseTo(20.257571946254153, EPSILON);
     assertThat(model.concurrencyAtLatency(0.0020))
-        .isCloseTo(31.27578649490135, EPSILON);
+        .isCloseTo(29.9028582842587, EPSILON);
   }
 
   @Test
