@@ -56,7 +56,7 @@ public abstract class Model {
   }
 
   /**
-   * Creates a model given the three parameters.
+   * Creates a model given the three parameters: σ, κ, and λ.
    *
    * @param sigma the coefficient of contention
    * @param kappa the coefficient of crosstalk (coherence)
