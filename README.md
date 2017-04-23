@@ -2,8 +2,9 @@
 
 [![Build Status](https://secure.travis-ci.org/codahale/usl4j.svg)](http://travis-ci.org/codahale/usl4j)
 
-usl4j is Java modeler for the Universal Scalability Law, which can be used in system testing and
-capacity planning.
+usl4j is Java modeler for the [Universal Scalability Law][USL], which can be used in system testing
+and capacity planning, as described by [Baron Schwartz][BS] in his book [Practical Scalability
+Analysis with the Universal Scalability Law][PSA].
 
 ## Add to your project
 
@@ -15,24 +16,23 @@ capacity planning.
 </dependency>
 ```
 
-It depends on the [Efficient Java Matrix Library](https://github.com/lessthanoptimal/ejml) for
-matrix operations. If someone has a less funky way to emulate [R's `nls`
-function](https://github.com/smoeding/usl), I'd love to hear about it.
+It depends on the [Efficient Java Matrix Library][EJML] for matrix operations. If someone has a less
+funky way to emulate [R's `nls` function][USL-R], I'd love to hear about it.
 
 ## How to use this
 
 As an example, consider doing load testing and capacity planning for an HTTP server. To model the
-behavior of the system using the USL, you must first gather a set of measurements of the system.
-These measurements must be of two of the three parameters of [Little's
-Law](https://en.wikipedia.org/wiki/Little%27s_law): mean response time (in seconds), throughput (in
-requests per second), and concurrency (i.e. the number of concurrent clients).
+behavior of the system using the [USL][USL], you must first gather a set of measurements of the
+system. These measurements must be of two of the three parameters of [Little's Law][LL]: mean
+response time (in seconds), throughput (in requests per second), and concurrency (i.e. the number of
+concurrent clients).
 
 Because response time tends to be a property of load (i.e. it rises as throughput or concurrency
 rises), the dependent variable in your tests should be mean response time. This leaves either
-throughput or concurrency as your independent variable, but thanks to Little's Law it doesn't matter
-which one you use. For the purposes of discussion, let's say you measure throughput as a function of
-the number of concurrent clients working at a fixed rate (e.g. you used
-[`wrk2`](https://github.com/giltene/wrk2)).
+throughput or concurrency as your independent variable, but thanks to [Little's Law][LL] it doesn't
+matter which one you use. For the purposes of discussion, let's say you measure throughput as a
+function of the number of concurrent clients working at a fixed rate (e.g. you used
+[`wrk2`][wrk2]).
 
 After your load testing is done, your should have a set of measurements shaped like this:
 
@@ -73,14 +73,24 @@ class Example {
 
 ## Further reading
 
-I strongly recommend [Practical Scalability Analysis with the Universal Scalability
-Law](https://www.vividcortex.com/resources/universal-scalability-law/), a free e-book by Baron
-Schwartz, author of _High Performance MySQL_ and CEO of VividCortex. Trying to use this library
-without actually understanding the concepts behind Little's Law, Amdahl's Law, and the Universal
-Scalability Law will be difficult and potentially misleading.
+I strongly recommend [Practical Scalability Analysis with the Universal Scalability Law][PSA], a
+free e-book by [Baron Schwartz][BS], author of [High Performance MySQL][MySQL] and CEO of
+[VividCortex][VC]. Trying to use this library without actually understanding the concepts behind
+[Little's Law][LL], Amdahl's Law, and the Universal Scalability Law will be difficult and
+potentially misleading.
 
 ## License
 
 Copyright © 2017 Coda Hale
 
 Distributed under the Apache License 2.0.
+
+[LL]: https://en.wikipedia.org/wiki/Little%27s_law
+[PSA]: https://www.vividcortex.com/resources/universal-scalability-law/
+[USL]: http://www.perfdynamics.com/Manifesto/USLscalability.html
+[BS]: https://www.xaprb.com/
+[MySQL]: http://shop.oreilly.com/product/0636920022343.do
+[VC]: https://www.vividcortex.com/
+[EJML]: https://github.com/lessthanoptimal/ejml
+[USL-R]: https://github.com/smoeding/usl
+[wrk2]: https://github.com/giltene/wrk2
