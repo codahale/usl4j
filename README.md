@@ -4,7 +4,8 @@
 
 usl4j is Java modeler for the [Universal Scalability Law][USL], which can be used in system testing
 and capacity planning, as described by [Baron Schwartz][BS] in his book [Practical Scalability
-Analysis with the Universal Scalability Law][PSA].
+Analysis with the Universal Scalability Law][PSA]. The model coefficients and predictions should be
+within 0.02% of those listed in the book.
 
 ## Add to your project
 

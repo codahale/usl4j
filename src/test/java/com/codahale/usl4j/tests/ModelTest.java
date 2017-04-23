@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.stream.Collectors;
 import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 import org.junit.Test;
 
 public class ModelTest {
@@ -37,6 +38,18 @@ public class ModelTest {
       {19, 10532.39}, {20, 10798.52}, {21, 11151.43}, {22, 11518.63}, {23, 11806}, {24, 12089.37},
       {25, 12075.41}, {26, 12177.29}, {27, 12211.41}, {28, 12158.93}, {29, 12155.27},
       {30, 12118.04}, {31, 12140.4}, {32, 12074.39}};
+
+  // listed values of the fitted model from the book
+  private static final double BOOK_KAPPA = 7.690945E-4;
+  private static final double BOOK_SIGMA = 0.02671591;
+  private static final double BOOK_LAMBDA = 995.6486;
+  private static final double BOOK_N_MAX = 35;
+  private static final double BOOK_X_MAX = 12341;
+
+  // our numbers should be within 0.02% of those in the book
+  private static final Percentage BOOK_FIT = Percentage.withPercentage(0.02);
+
+  // a model built from the Cisco measurements
   private final Model model = Arrays.stream(CISCO).map(Measurement::ofConcurrencyAndThroughput)
                                     .collect(Model.toModel());
 
@@ -55,35 +68,32 @@ public class ModelTest {
 
   @Test
   public void sigma() throws Exception {
-    // listed as 0.02671591 in the book
     assertThat(model.sigma())
-        .isCloseTo(0.026712125737748685, EPSILON);
+        .isCloseTo(BOOK_SIGMA, BOOK_FIT);
   }
 
   @Test
   public void kappa() throws Exception {
-    // listed as 7.690945E-4 in the book
     assertThat(model.kappa())
-        .isCloseTo(7.691446539186244E-4, EPSILON);
+        .isCloseTo(BOOK_KAPPA, BOOK_FIT);
   }
 
   @Test
   public void lambda() throws Exception {
-    // listed as 995.6486 in the book
     assertThat(model.lambda())
-        .isCloseTo(995.620763770714, EPSILON);
+        .isCloseTo(BOOK_LAMBDA, BOOK_FIT);
   }
 
   @Test
   public void maxConcurrency() throws Exception {
     assertThat(model.maxConcurrency())
-        .isCloseTo(35, EPSILON);
+        .isCloseTo(BOOK_N_MAX, BOOK_FIT);
   }
 
   @Test
   public void maxThroughput() throws Exception {
     assertThat(model.maxThroughput())
-        .isCloseTo(12341.702030111755, EPSILON);
+        .isCloseTo(BOOK_X_MAX, BOOK_FIT);
   }
 
   @Test
