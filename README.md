@@ -31,7 +31,8 @@ Because response time tends to be a property of load (i.e. it rises as throughpu
 rises), the dependent variable in your tests should be mean response time. This leaves either
 throughput or concurrency as your independent variable, but thanks to Little's Law it doesn't matter
 which one you use. For the purposes of discussion, let's say you measure throughput as a function of
-the number of concurrent clients working at a fixed rate (e.g. you used `wrk2`).
+the number of concurrent clients working at a fixed rate (e.g. you used
+[`wrk2`](https://github.com/giltene/wrk2)).
 
 After your load testing is done, your should have a set of measurements shaped like this:
 
