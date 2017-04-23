@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.3.0: 2017-04-23
+
+* Switched to DDogleg Numerics for least-squares regression.
+
 ## v0.2.1: 2017-04-22
 
 * Improved `#toString` implementation of `Measurement` to reflect the changes in v0.2.0.
