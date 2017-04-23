@@ -78,7 +78,28 @@ public abstract class Model {
     }
     // use Levenberg-Marquardt least-squares to determine best fitting coefficients for the model
     final UnconstrainedLeastSquares lm = FactoryOptimization.leastSquaresLM(1e-3, true);
-    lm.setFunction(new ModelResidual(measurements), null);
+    lm.setFunction(new FunctionNtoM() {
+
+      @Override
+      public int getNumOfInputsN() {
+        return 3;
+      }
+
+      @Override
+      public int getNumOfOutputsM() {
+        return measurements.size();
+      }
+
+      @Override
+      public void process(double[] input, double[] output) {
+        // calculates and returns the residuals for each observation
+        final Model model = Model.of(input[0], input[1], input[2]);
+        for (int i = 0; i < measurements.size(); i++) {
+          final Measurement m = measurements.get(i);
+          output[i] = m.throughput() - model.throughputAtConcurrency(m.concurrency());
+        }
+      }
+    }, null);
     // calculate a best guess of lambda
     final double l = measurements.stream().mapToDouble(m -> m.throughput() / m.concurrency())
                                  .max().orElse(0);
@@ -227,36 +248,5 @@ public abstract class Model {
    */
   public boolean isLimitless() {
     return kappa() == 0;
-  }
-
-  private static class ModelResidual implements FunctionNtoM {
-
-    private final List<Measurement> measurements;
-
-    ModelResidual(List<Measurement> measurements) {
-      this.measurements = measurements;
-    }
-
-    @Override
-    public int getNumOfInputsN() {
-      // the number of coefficients
-      return 3;
-    }
-
-    @Override
-    public int getNumOfOutputsM() {
-      // the number of observations
-      return measurements.size();
-    }
-
-    @Override
-    public void process(double[] input, double[] output) {
-      // calculates and returns the residuals for each observation
-      final Model model = Model.of(input[0], input[1], input[2]);
-      for (int i = 0; i < measurements.size(); i++) {
-        final Measurement m = measurements.get(i);
-        output[i] = m.throughput() - model.throughputAtConcurrency(m.concurrency());
-      }
-    }
   }
 }
