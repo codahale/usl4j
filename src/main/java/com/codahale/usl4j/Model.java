@@ -95,7 +95,11 @@ public abstract class Model {
     //
     // This would also allow us to determine λ via regression, as well, instead of hoping the
     // measurement with the lowest concurrency is typical of the system's unloaded behavior. I can't
-    // find a Java library which does this, though, so here's a big mess I don't fully understand:
+    // find a Java library which does this, though, but if you're a Java numerical computing whiz
+    // who's got a way of improving this that doesn't involve an old tarball of Fortran your grad
+    // school advisor gave you, then I'd love to hear about improvements. I've tried a number of
+    // different approaches (Least-Squares via ddogleg, etc.) and all have generated worse-fitting
+    // models than this.
 
     final List<Measurement> points = measurements.stream()
                                                  .sorted(Comparator.comparingDouble(Measurement::n))
