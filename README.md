@@ -16,7 +16,7 @@ Analysis with the Universal Scalability Law][PSA].
 </dependency>
 ```
 
-It depends on [DDogleg Numerics][DDN] for least-squares regression.
+It depends on [DDogleg Numerics][DDogleg] for least-squares regression.
 
 ## How to use this
 
@@ -90,6 +90,5 @@ Distributed under the Apache License 2.0.
 [BS]: https://www.xaprb.com/
 [MySQL]: http://shop.oreilly.com/product/0636920022343.do
 [VC]: https://www.vividcortex.com/
-[DLN]: http://ddogleg.org/
-[USL-R]: https://github.com/smoeding/usl
+[DDogleg]: http://ddogleg.org/
 [wrk2]: https://github.com/giltene/wrk2
