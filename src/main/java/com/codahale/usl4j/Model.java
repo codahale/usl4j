@@ -102,7 +102,7 @@ public abstract class Model {
     }, null);
     // calculate a best guess of lambda
     final double l = measurements.stream().mapToDouble(m -> m.throughput() / m.concurrency())
-                                 .max().orElse(0);
+                                 .max().orElseThrow(IllegalArgumentException::new);
     lm.initialize(new double[]{0.1, 0.01, l}, 1e-12, 1e-12);
 
     // run iterations until we converge or get bored
