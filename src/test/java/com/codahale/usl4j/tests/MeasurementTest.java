@@ -18,32 +18,32 @@ import static com.codahale.usl4j.tests.ModelTest.EPSILON;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.codahale.usl4j.Measurement;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class MeasurementTest {
+class MeasurementTest {
 
   private final Measurement measurement = Measurement.ofConcurrencyAndThroughput(3, 5);
 
   @Test
-  public void concurrency() throws Exception {
+  void concurrency() throws Exception {
     assertThat(measurement.concurrency())
         .isCloseTo(3, EPSILON);
   }
 
   @Test
-  public void throughput() throws Exception {
+  void throughput() throws Exception {
     assertThat(measurement.throughput())
         .isCloseTo(5, EPSILON);
   }
 
   @Test
-  public void latency() throws Exception {
+  void latency() throws Exception {
     assertThat(measurement.latency())
         .isCloseTo(0.6, EPSILON);
   }
 
   @Test
-  public void latencyMeasurement() throws Exception {
+  void latencyMeasurement() throws Exception {
     final Measurement a = Measurement.ofConcurrencyAndLatency(3, 0.6);
     assertThat(a.throughput())
         .isCloseTo(5, EPSILON);
@@ -54,7 +54,7 @@ public class MeasurementTest {
   }
 
   @Test
-  public void throughputMeasurement() throws Exception {
+  void throughputMeasurement() throws Exception {
     final Measurement a = Measurement.ofThroughputAndLatency(5, 0.6);
     assertThat(a.concurrency())
         .isCloseTo(3, EPSILON);

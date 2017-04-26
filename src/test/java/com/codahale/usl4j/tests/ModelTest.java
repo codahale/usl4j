@@ -24,9 +24,9 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ModelTest {
+class ModelTest {
 
   static final Offset<Double> EPSILON = Offset.offset(0.00001);
 
@@ -54,62 +54,65 @@ public class ModelTest {
                                     .collect(Model.toModel());
 
   @Test
-  public void build() throws Exception {
-    final Model other = Model.build(Arrays.stream(CISCO)
-                                          .map(Measurement::ofConcurrencyAndThroughput)
-                                          .collect(Collectors.toList()));
-    assertThat(other.sigma())
-        .isCloseTo(model.sigma(), EPSILON);
-
+  void minMeasurements() {
     assertThatThrownBy(() -> Model.build(Collections.emptyList()))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessage("Needs at least 6 measurements");
   }
 
   @Test
-  public void sigma() throws Exception {
+  void build() throws Exception {
+    final Model other = Model.build(Arrays.stream(CISCO)
+                                          .map(Measurement::ofConcurrencyAndThroughput)
+                                          .collect(Collectors.toList()));
+    assertThat(other.sigma())
+        .isCloseTo(model.sigma(), EPSILON);
+  }
+
+  @Test
+  void sigma() throws Exception {
     assertThat(model.sigma())
         .isCloseTo(BOOK_SIGMA, BOOK_FIT);
   }
 
   @Test
-  public void kappa() throws Exception {
+  void kappa() throws Exception {
     assertThat(model.kappa())
         .isCloseTo(BOOK_KAPPA, BOOK_FIT);
   }
 
   @Test
-  public void lambda() throws Exception {
+  void lambda() throws Exception {
     assertThat(model.lambda())
         .isCloseTo(BOOK_LAMBDA, BOOK_FIT);
   }
 
   @Test
-  public void maxConcurrency() throws Exception {
+  void maxConcurrency() throws Exception {
     assertThat(model.maxConcurrency())
         .isCloseTo(BOOK_N_MAX, BOOK_FIT);
   }
 
   @Test
-  public void maxThroughput() throws Exception {
+  void maxThroughput() throws Exception {
     assertThat(model.maxThroughput())
         .isCloseTo(BOOK_X_MAX, BOOK_FIT);
   }
 
   @Test
-  public void coherency() throws Exception {
+  void coherency() throws Exception {
     assertThat(model.isCoherencyConstrained())
         .isFalse();
   }
 
   @Test
-  public void contention() throws Exception {
+  void contention() throws Exception {
     assertThat(model.isContentionConstrained())
         .isTrue();
   }
 
   @Test
-  public void latencyAtConcurrency() throws Exception {
+  void latencyAtConcurrency() throws Exception {
     assertThat(model.latencyAtConcurrency(1))
         .isCloseTo(0.0010043984982923623, EPSILON);
     assertThat(model.latencyAtConcurrency(20))
@@ -119,7 +122,7 @@ public class ModelTest {
   }
 
   @Test
-  public void throughputAtConcurrency() throws Exception {
+  void throughputAtConcurrency() throws Exception {
     assertThat(model.throughputAtConcurrency(1))
         .isCloseTo(995.620763770714, EPSILON);
     assertThat(model.throughputAtConcurrency(20))
@@ -129,7 +132,7 @@ public class ModelTest {
   }
 
   @Test
-  public void concurrencyAtThroughput() throws Exception {
+  void concurrencyAtThroughput() throws Exception {
     assertThat(model.concurrencyAtThroughput(955))
         .isCloseTo(0.9581277018657741, EPSILON);
     assertThat(model.concurrencyAtThroughput(11048))
@@ -139,7 +142,7 @@ public class ModelTest {
   }
 
   @Test
-  public void throughputAtLatency() throws Exception {
+  void throughputAtLatency() throws Exception {
     final Model model = Model.of(0.06, 0.06, 40);
     assertThat(model.throughputAtLatency(0.03))
         .isCloseTo(69.38886664887109, EPSILON);
@@ -150,7 +153,7 @@ public class ModelTest {
   }
 
   @Test
-  public void latencyAtThroughput() throws Exception {
+  void latencyAtThroughput() throws Exception {
     final Model model = Model.of(0.06, 0.06, 40);
     assertThat(model.latencyAtThroughput(400))
         .isCloseTo(0.05875, EPSILON);
@@ -161,7 +164,7 @@ public class ModelTest {
   }
 
   @Test
-  public void concurrencyAtLatency() throws Exception {
+  void concurrencyAtLatency() throws Exception {
     // going off page 30-31
     final Model model = Arrays.stream(CISCO).limit(10)
                               .map(Measurement::ofConcurrencyAndThroughput)
@@ -175,7 +178,7 @@ public class ModelTest {
   }
 
   @Test
-  public void limited() throws Exception {
+  void limitless() throws Exception {
     final Model unlimited = Model.of(1, 0, 40);
     assertThat(unlimited.isLimitless())
         .isTrue();
