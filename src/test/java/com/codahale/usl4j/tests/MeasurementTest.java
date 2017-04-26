@@ -15,7 +15,7 @@
 package com.codahale.usl4j.tests;
 
 import static com.codahale.usl4j.tests.ModelTest.EPSILON;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.codahale.usl4j.Measurement;
 import org.junit.jupiter.api.Test;
@@ -26,41 +26,34 @@ class MeasurementTest {
 
   @Test
   void concurrency() throws Exception {
-    assertThat(measurement.concurrency())
-        .isCloseTo(3, EPSILON);
+    assertEquals(3, measurement.concurrency(), EPSILON);
   }
 
   @Test
   void throughput() throws Exception {
-    assertThat(measurement.throughput())
-        .isCloseTo(5, EPSILON);
+    assertEquals(5, measurement.throughput(), EPSILON);
   }
 
   @Test
   void latency() throws Exception {
-    assertThat(measurement.latency())
-        .isCloseTo(0.6, EPSILON);
+    assertEquals(0.6, measurement.latency(), EPSILON);
   }
 
   @Test
   void latencyMeasurement() throws Exception {
     final Measurement a = Measurement.ofConcurrencyAndLatency(3, 0.6);
-    assertThat(a.throughput())
-        .isCloseTo(5, EPSILON);
+    assertEquals(5, a.throughput(), EPSILON);
 
     final Measurement b = Measurement.ofConcurrencyAndLatency(new double[]{3, 0.6});
-    assertThat(b.throughput())
-        .isCloseTo(5, EPSILON);
+    assertEquals(5, b.throughput(), EPSILON);
   }
 
   @Test
   void throughputMeasurement() throws Exception {
     final Measurement a = Measurement.ofThroughputAndLatency(5, 0.6);
-    assertThat(a.concurrency())
-        .isCloseTo(3, EPSILON);
+    assertEquals(3, a.concurrency(), EPSILON);
 
     final Measurement b = Measurement.ofThroughputAndLatency(new double[]{5, 0.6});
-    assertThat(b.concurrency())
-        .isCloseTo(3, EPSILON);
+    assertEquals(3, b.concurrency(), EPSILON);
   }
 }
