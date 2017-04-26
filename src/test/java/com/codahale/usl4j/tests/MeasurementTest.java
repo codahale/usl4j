@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 
 class MeasurementTest {
 
-  private final Measurement measurement = Measurement.ofConcurrencyAndThroughput(3, 5);
+  private final Measurement measurement = Measurement.ofConcurrency().andThroughput(3, 5);
 
   @Test
   void concurrency() throws Exception {
@@ -41,19 +41,22 @@ class MeasurementTest {
 
   @Test
   void latencyMeasurement() throws Exception {
-    final Measurement a = Measurement.ofConcurrencyAndLatency(3, 0.6);
+    final Measurement a = Measurement.ofConcurrency().andLatency(3, 0.6);
     assertEquals(5, a.throughput(), EPSILON);
 
-    final Measurement b = Measurement.ofConcurrencyAndLatency(new double[]{3, 0.6});
+    final Measurement b = Measurement.ofConcurrency().andLatency(new double[]{3, 0.6});
     assertEquals(5, b.throughput(), EPSILON);
   }
 
   @Test
   void throughputMeasurement() throws Exception {
-    final Measurement a = Measurement.ofThroughputAndLatency(5, 0.6);
+    final Measurement a = Measurement.ofThroughput().andLatency(5, 0.6);
     assertEquals(3, a.concurrency(), EPSILON);
 
-    final Measurement b = Measurement.ofThroughputAndLatency(new double[]{5, 0.6});
+    final Measurement b = Measurement.ofThroughput().andLatency(new double[]{5, 0.6});
     assertEquals(3, b.concurrency(), EPSILON);
+
+    final Measurement c = Measurement.ofThroughput().andConcurrency(5, 3);
+    assertEquals(0.6, measurement.latency());
   }
 }

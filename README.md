@@ -13,7 +13,7 @@ within 0.02% of those listed in the book.
 <dependency>
   <groupId>com.codahale</groupId>
   <artifactId>usl4j</artifactId>
-  <version>0.3.0</version>
+  <version>0.4.0</version>
 </dependency>
 ```
 
@@ -58,11 +58,9 @@ class Example {
   void buildModel() {
     final double[][] points = {{1, 4227}, {2, 8382}, {4, 16479}}; // etc.
   
-    // Map the points to measurements of throughput and build a model. If you'd measured mean
-    // response times instead of throughput, you could use Measurement::ofConcurrencyAndLatency or
-    // even Measurement::ofThroughputAndLatency.
+    // Map the points to measurements of throughput and build a model. 
     final Model model = Arrays.stream(points)
-                              .map(Measurement::ofConcurrencyAndThroughput)
+                              .map(Measurement.ofConcurrency()::andThroughput)
                               .collect(Model.toModel());
     for (int i = 10; i < 200; i+=10) {
       System.out.printf("At %d workers, expect %f req/sec\n", i, model.throughputAtConcurrency(i));

@@ -47,7 +47,8 @@ class ModelTest {
   private static final double BOOK_X_MAX = 12341;
 
   // a model built from the Cisco measurements
-  private final Model model = Arrays.stream(CISCO).map(Measurement::ofConcurrencyAndThroughput)
+  private final Model model = Arrays.stream(CISCO)
+                                    .map(Measurement.ofConcurrency()::andThroughput)
                                     .collect(Model.toModel());
 
   @Test
@@ -58,7 +59,7 @@ class ModelTest {
   @Test
   void build() throws Exception {
     final Model other = Model.build(Arrays.stream(CISCO)
-                                          .map(Measurement::ofConcurrencyAndThroughput)
+                                          .map(Measurement.ofConcurrency()::andThroughput)
                                           .collect(Collectors.toList()));
     assertEquals(other.sigma(), model.sigma(), EPSILON);
   }
@@ -139,7 +140,7 @@ class ModelTest {
   void concurrencyAtLatency() throws Exception {
     // going off page 30-31
     final Model model = Arrays.stream(CISCO).limit(10)
-                              .map(Measurement::ofConcurrencyAndThroughput)
+                              .map(Measurement.ofThroughput()::andConcurrency)
                               .collect(Model.toModel());
     assertEquals(7.229893153888714, model.concurrencyAtLatency(0.0012), EPSILON);
     assertEquals(20.257571946254153, model.concurrencyAtLatency(0.0016), EPSILON);
