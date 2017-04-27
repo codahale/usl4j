@@ -46,7 +46,7 @@ After your load testing is done, your should have a set of measurements shaped l
 |         32|    104462|
 |         64|    162985|
 
-For simplicity's sake, let's assume your're storing this as a `double[][]`. Now you can build our
+For simplicity's sake, let's assume you're storing this as a `double[][]`. Now you can build our
 model and begin estimating things:
 
 ```java
