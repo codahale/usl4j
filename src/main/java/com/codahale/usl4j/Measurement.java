@@ -25,49 +25,9 @@ import javax.annotation.concurrent.Immutable;
 @Immutable
 public abstract class Measurement {
 
-  private static final ConcurrencyBuilder WITH_CONCURRENCY = new ConcurrencyBuilder() {
-    @Override
-    public Measurement andThroughput(double concurrency, double throughput) {
-      return new AutoValue_Measurement(concurrency, throughput, concurrency / throughput);
-    }
+  private static final ConcurrencyBuilder WITH_CONCURRENCY = new ConcurrencyBuilder();
 
-    @Override
-    public Measurement andThroughput(double[] point) {
-      return andThroughput(point[0], point[1]);
-    }
-
-    @Override
-    public Measurement andLatency(double concurrency, double latency) {
-      return new AutoValue_Measurement(concurrency, concurrency / latency, latency);
-    }
-
-    @Override
-    public Measurement andLatency(double[] point) {
-      return andLatency(point[0], point[1]);
-    }
-  };
-
-  private static final ThroughputBuilder WITH_THROUGHPUT = new ThroughputBuilder() {
-    @Override
-    public Measurement andConcurrency(double throughput, double concurrency) {
-      return Measurement.ofConcurrency().andThroughput(throughput, concurrency);
-    }
-
-    @Override
-    public Measurement andConcurrency(double[] point) {
-      return andConcurrency(point[0], point[1]);
-    }
-
-    @Override
-    public Measurement andLatency(double throughput, double latency) {
-      return new AutoValue_Measurement(throughput * latency, throughput, latency);
-    }
-
-    @Override
-    public Measurement andLatency(double[] point) {
-      return andLatency(point[0], point[1]);
-    }
-  };
+  private static final ThroughputBuilder WITH_THROUGHPUT = new ThroughputBuilder();
 
   /**
    * Returns a builder for measurements of concurrency.
@@ -108,7 +68,10 @@ public abstract class Measurement {
    */
   public abstract double latency();
 
-  public interface ConcurrencyBuilder {
+  public static class ConcurrencyBuilder {
+
+    ConcurrencyBuilder() {
+    }
 
     /**
      * A {@link Measurement} of a system's throughput with a given number of concurrent workers.
@@ -117,7 +80,9 @@ public abstract class Measurement {
      * @param throughput the throughput, in events per second
      * @return a {@link Measurement}
      */
-    Measurement andThroughput(double concurrency, double throughput);
+    public Measurement andThroughput(double concurrency, double throughput) {
+      return new AutoValue_Measurement(concurrency, throughput, concurrency / throughput);
+    }
 
     /**
      * A {@link Measurement} of a system's throughput with a given number of concurrent workers.
@@ -125,7 +90,9 @@ public abstract class Measurement {
      * @param point an array of concurrency/throughput pairs
      * @return a {@link Measurement}
      */
-    Measurement andThroughput(double[] point);
+    public Measurement andThroughput(double[] point) {
+      return andThroughput(point[0], point[1]);
+    }
 
     /**
      * A {@link Measurement} of a system's throughput with a mean latency.
@@ -134,7 +101,9 @@ public abstract class Measurement {
      * @param latency the mean latency, in seconds
      * @return a {@link Measurement}
      */
-    Measurement andLatency(double concurrency, double latency);
+    public Measurement andLatency(double concurrency, double latency) {
+      return new AutoValue_Measurement(concurrency, concurrency / latency, latency);
+    }
 
     /**
      * A {@link Measurement} of a system's throughput with a mean latency.
@@ -142,10 +111,15 @@ public abstract class Measurement {
      * @param point an array of concurrency/latency pairs
      * @return a {@link Measurement}
      */
-    Measurement andLatency(double[] point);
+    public Measurement andLatency(double[] point) {
+      return andLatency(point[0], point[1]);
+    }
   }
 
-  public interface ThroughputBuilder {
+  public static class ThroughputBuilder {
+
+    ThroughputBuilder() {
+    }
 
     /**
      * A {@link Measurement} of a system's throughput with a given number of concurrent workers.
@@ -154,7 +128,9 @@ public abstract class Measurement {
      * @param concurrency the number of concurrent workers
      * @return a {@link Measurement}
      */
-    Measurement andConcurrency(double throughput, double concurrency);
+    public Measurement andConcurrency(double throughput, double concurrency) {
+      return Measurement.ofConcurrency().andThroughput(throughput, concurrency);
+    }
 
     /**
      * A {@link Measurement} of a system's throughput with a given number of concurrent workers.
@@ -162,7 +138,9 @@ public abstract class Measurement {
      * @param point an array of concurrency/throughput pairs
      * @return a {@link Measurement}
      */
-    Measurement andConcurrency(double[] point);
+    public Measurement andConcurrency(double[] point) {
+      return andConcurrency(point[0], point[1]);
+    }
 
     /**
      * A {@link Measurement} of a system's latency at a given throughput.
@@ -171,7 +149,9 @@ public abstract class Measurement {
      * @param latency the mean latency, in seconds
      * @return a {@link Measurement}
      */
-    Measurement andLatency(double throughput, double latency);
+    public Measurement andLatency(double throughput, double latency) {
+      return new AutoValue_Measurement(throughput * latency, throughput, latency);
+    }
 
     /**
      * A {@link Measurement} of a system's latency at a given throughput.
@@ -179,6 +159,8 @@ public abstract class Measurement {
      * @param point an array of throughput/latency points
      * @return a {@link Measurement}
      */
-    Measurement andLatency(double[] point);
+    public Measurement andLatency(double[] point) {
+      return andLatency(point[0], point[1]);
+    }
   }
 }
