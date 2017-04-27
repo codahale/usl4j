@@ -2,10 +2,18 @@
 
 [![Build Status](https://secure.travis-ci.org/codahale/usl4j.svg)](http://travis-ci.org/codahale/usl4j)
 
-usl4j is Java modeler for [Dr. Neil Gunther][NJG]'s [Universal Scalability Law][USL], which can be
-used in system testing and capacity planning, as described by [Baron Schwartz][BS] in his book
-[Practical Scalability Analysis with the Universal Scalability Law][PSA]. The model coefficients and
-predictions should be within 0.02% of those listed in the book.
+usl4j is Java modeler for [Dr. Neil Gunther][NJG]'s [Universal Scalability Law][USL] as described by
+[Baron Schwartz][BS] in his book [Practical Scalability Analysis with the Universal Scalability
+Law][PSA]. 
+
+Given a handful of measurements of any two [Little's Law][LL] parameters--throughput, latency, and
+concurrency--the [USL][USL] allows you to make predictions about any of those parameters' values
+given an arbitrary value for any another parameter. For example, given a set of measurements of
+concurrency and throughput, the [USL][USL] will allow you to predict what a system's average latency
+will look like at a particular throughput, or how many servers you'll need to process requests and
+stay under your SLA's latency requirements.
+
+The model coefficients and predictions should be within 0.02% of those listed in the book.
 
 ## Add to your project
 
