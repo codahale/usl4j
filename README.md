@@ -2,10 +2,10 @@
 
 [![Build Status](https://secure.travis-ci.org/codahale/usl4j.svg)](http://travis-ci.org/codahale/usl4j)
 
-usl4j is Java modeler for the [Universal Scalability Law][USL], which can be used in system testing
-and capacity planning, as described by [Baron Schwartz][BS] in his book [Practical Scalability
-Analysis with the Universal Scalability Law][PSA]. The model coefficients and predictions should be
-within 0.02% of those listed in the book.
+usl4j is Java modeler for [Dr. Neil Gunther][NJG]'s [Universal Scalability Law][USL], which can be
+used in system testing and capacity planning, as described by [Baron Schwartz][BS] in his book
+[Practical Scalability Analysis with the Universal Scalability Law][PSA]. The model coefficients and
+predictions should be within 0.02% of those listed in the book.
 
 ## Add to your project
 
@@ -83,6 +83,7 @@ Copyright © 2017 Coda Hale
 
 Distributed under the Apache License 2.0.
 
+[NJG]: http://www.perfdynamics.com/Bio/njg.html
 [AL]: https://en.wikipedia.org/wiki/Amdahl%27s_law
 [LL]: https://en.wikipedia.org/wiki/Little%27s_law
 [PSA]: https://www.vividcortex.com/resources/universal-scalability-law/
