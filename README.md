@@ -42,20 +42,21 @@ matter which one you use. For the purposes of discussion, let's say you measure 
 function of the number of concurrent clients working at a fixed rate (e.g. you used
 [`wrk2`][wrk2]).
 
-After your load testing is done, your should have a set of measurements shaped like this:
+After your load testing is done, you should have a set of measurements shaped like this:
 
 |concurrency|throughput|
 |-----------|----------|
-|          1|      4227|
-|          2|      8382|
-|          4|     16479|
-|          8|     31856|
-|         16|     59564|
-|         32|    104462|
-|         64|    162985|
+|          1|    955.16|
+|          2|   1878.91|
+|          3|   2688.01|
+|          4|   3548.68|
+|          5|   4315.54|
+|          6|   5130.43|
+|          7|   5931.37|
+|          8|   6531.08|
 
-For simplicity's sake, let's assume you're storing this as a `double[][]`. Now you can build our
-model and begin estimating things:
+For simplicity's sake, let's assume you're storing this as a `double[][]`. Now you can build a model
+and begin estimating things:
 
 ```java
 import com.codahale.usl4j.Measurement;
@@ -64,9 +65,9 @@ import java.util.Arrays;
 
 class Example {
   void buildModel() {
-    final double[][] points = {{1, 4227}, {2, 8382}, {4, 16479}}; // etc.
+    final double[][] points = {{1, 955.16}, {2, 1878.91}, {3, 2688.01}}; // etc.
   
-    // Map the points to measurements of throughput and build a model. 
+    // Map the points to measurements of concurrency and throughput, then build a model from them. 
     final Model model = Arrays.stream(points)
                               .map(Measurement.ofConcurrency()::andThroughput)
                               .collect(Model.toModel());
