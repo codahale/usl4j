@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.4.0: 2017-04-26
+
+* Refactored builder methods for measurements.
+
 ## v0.3.0: 2017-04-23
 
 * Switched to DDogleg Numerics for least-squares regression.
