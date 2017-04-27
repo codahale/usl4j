@@ -32,7 +32,7 @@ class ModelTest {
 
   // data of Cisco benchmark from Practical Scalability by Baron Schwartz
   private static final double[][] CISCO = {
-      {1, 955.16}, {2, 1878.91}, {3, 2688.01}, {4, 3548.68}, {5, 4315, 54}, {6, 5130.43},
+      {1, 955.16}, {2, 1878.91}, {3, 2688.01}, {4, 3548.68}, {5, 4315.54}, {6, 5130.43},
       {7, 5931.37}, {8, 6531.08}, {9, 7219.8}, {10, 7867.61}, {11, 8278.71}, {12, 8646.7},
       {13, 9047.84}, {14, 9426.55}, {15, 9645.37}, {16, 9897.24}, {17, 10097.6}, {18, 10240.5},
       {19, 10532.39}, {20, 10798.52}, {21, 11151.43}, {22, 11518.63}, {23, 11806}, {24, 12089.37},
@@ -108,16 +108,16 @@ class ModelTest {
 
   @Test
   void throughputAtConcurrency() throws Exception {
-    assertEquals(995.620763770714, model.throughputAtConcurrency(1), EPSILON);
-    assertEquals(11063.649295390296, model.throughputAtConcurrency(20), EPSILON);
-    assertEquals(12341.702030111755, model.throughputAtConcurrency(35), EPSILON);
+    assertEquals(995.648772003358, model.throughputAtConcurrency(1), EPSILON);
+    assertEquals(11063.633137626028, model.throughputAtConcurrency(20), EPSILON);
+    assertEquals(12341.7456205207, model.throughputAtConcurrency(35), EPSILON);
   }
 
   @Test
   void concurrencyAtThroughput() throws Exception {
-    assertEquals(0.9581277018657741, model.concurrencyAtThroughput(955), EPSILON);
-    assertEquals(15.350185060769837, model.concurrencyAtThroughput(11048), EPSILON);
-    assertEquals(17.73178569077728, model.concurrencyAtThroughput(12201), EPSILON);
+    assertEquals(0.9580998829620233, model.concurrencyAtThroughput(955), EPSILON);
+    assertEquals(15.350435172752203, model.concurrencyAtThroughput(11048), EPSILON);
+    assertEquals(17.73220762025387, model.concurrencyAtThroughput(12201), EPSILON);
   }
 
   @Test
@@ -142,9 +142,9 @@ class ModelTest {
     final Model model = Arrays.stream(CISCO).limit(10)
                               .map(Measurement.ofThroughput()::andConcurrency)
                               .collect(Model.toModel());
-    assertEquals(7.229893153888714, model.concurrencyAtLatency(0.0012), EPSILON);
-    assertEquals(20.257571946254153, model.concurrencyAtLatency(0.0016), EPSILON);
-    assertEquals(29.9028582842587, model.concurrencyAtLatency(0.0020), EPSILON);
+    assertEquals(7.230628979597649, model.concurrencyAtLatency(0.0012), EPSILON);
+    assertEquals(20.25106409917121, model.concurrencyAtLatency(0.0016), EPSILON);
+    assertEquals(29.888882633013246, model.concurrencyAtLatency(0.0020), EPSILON);
   }
 
   @Test

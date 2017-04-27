@@ -47,6 +47,12 @@ public abstract class Measurement {
     return WITH_THROUGHPUT;
   }
 
+  private static void checkPoint(double[] point) {
+    if (point.length != 2) {
+      throw new IllegalArgumentException("point must have exactly 2 elements");
+    }
+  }
+
   /**
    * The number of concurrent workers at the time of measurement.
    *
@@ -91,6 +97,7 @@ public abstract class Measurement {
      * @return a {@link Measurement}
      */
     public Measurement andThroughput(double[] point) {
+      checkPoint(point);
       return andThroughput(point[0], point[1]);
     }
 
@@ -112,6 +119,7 @@ public abstract class Measurement {
      * @return a {@link Measurement}
      */
     public Measurement andLatency(double[] point) {
+      checkPoint(point);
       return andLatency(point[0], point[1]);
     }
   }
@@ -139,6 +147,7 @@ public abstract class Measurement {
      * @return a {@link Measurement}
      */
     public Measurement andConcurrency(double[] point) {
+      checkPoint(point);
       return andConcurrency(point[0], point[1]);
     }
 
@@ -160,6 +169,7 @@ public abstract class Measurement {
      * @return a {@link Measurement}
      */
     public Measurement andLatency(double[] point) {
+      checkPoint(point);
       return andLatency(point[0], point[1]);
     }
   }

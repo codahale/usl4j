@@ -16,6 +16,7 @@ package com.codahale.usl4j.tests;
 
 import static com.codahale.usl4j.tests.ModelTest.EPSILON;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.codahale.usl4j.Measurement;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,23 @@ import org.junit.jupiter.api.Test;
 class MeasurementTest {
 
   private final Measurement measurement = Measurement.ofConcurrency().andThroughput(3, 5);
+
+  @Test
+  void badPoints() {
+    final double[] p = new double[3];
+
+    assertThrows(IllegalArgumentException.class,
+        () -> Measurement.ofConcurrency().andLatency(p));
+
+    assertThrows(IllegalArgumentException.class,
+        () -> Measurement.ofConcurrency().andThroughput(p));
+
+    assertThrows(IllegalArgumentException.class,
+        () -> Measurement.ofThroughput().andLatency(p));
+
+    assertThrows(IllegalArgumentException.class,
+        () -> Measurement.ofThroughput().andConcurrency(p));
+  }
 
   @Test
   void concurrency() throws Exception {
@@ -57,6 +75,6 @@ class MeasurementTest {
     assertEquals(3, b.concurrency(), EPSILON);
 
     final Measurement c = Measurement.ofThroughput().andConcurrency(5, 3);
-    assertEquals(0.6, measurement.latency());
+    assertEquals(1.0 + 2.0 / 3.0, c.latency(), EPSILON);
   }
 }
