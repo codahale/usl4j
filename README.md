@@ -13,7 +13,7 @@ within 0.02% of those listed in the book.
 <dependency>
   <groupId>com.codahale</groupId>
   <artifactId>usl4j</artifactId>
-  <version>0.4.0</version>
+  <version>0.5.0</version>
 </dependency>
 ```
 
