@@ -18,7 +18,7 @@
 
   <groupId>com.codahale</groupId>
   <artifactId>usl4j</artifactId>
-  <version>0.5.1-SNAPSHOT</version>
+  <version>0.5.1</version>
   <name>usl4j</name>
   <url>https://github.com/codahale/usl4j</url>
   <description>
@@ -37,7 +37,7 @@
     <developerConnection>scm:git:https://github.com/codahale/usl4j.git
     </developerConnection>
     <url>https://github.com/codahale/usl4j</url>
-    <tag>HEAD</tag>
+    <tag>v0.5.1</tag>
   </scm>
   <developers>
     <developer>
