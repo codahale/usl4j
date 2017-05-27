@@ -267,7 +267,7 @@
             <id>enforce</id>
             <configuration>
               <rules>
-                <dependencyConvergence />
+                <requireUpperBoundDeps/>
               </rules>
             </configuration>
             <goals>
