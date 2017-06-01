@@ -78,6 +78,18 @@ class Example {
 }
 ```
 
+## Performance
+
+Building models is pretty fast:
+
+```
+Benchmark         (size)  Mode  Cnt    Score   Error  Units
+Benchmarks.build      10  avgt  200    0.728 ± 0.014  us/op
+Benchmarks.build     100  avgt  200    4.456 ± 0.028  us/op
+Benchmarks.build    1000  avgt  200   40.059 ± 0.328  us/op
+Benchmarks.build   10000  avgt  200  394.486 ± 5.946  us/op
+```
+
 ## Further reading
 
 I strongly recommend [Practical Scalability Analysis with the Universal Scalability Law][PSA], a
