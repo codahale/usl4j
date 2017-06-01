@@ -98,6 +98,8 @@ free e-book by [Baron Schwartz][BS], author of [High Performance MySQL][MySQL] a
 [Little's Law][LL], [Amdahl's Law][AL], and the [Universal Scalability Law][USL] will be difficult
 and potentially misleading.
 
+I also [wrote a blog post about this library][usl4j].
+
 ## License
 
 Copyright © 2017 Coda Hale
@@ -114,3 +116,4 @@ Distributed under the Apache License 2.0.
 [VC]: https://www.vividcortex.com/
 [DDogleg]: http://ddogleg.org/
 [wrk2]: https://github.com/giltene/wrk2
+[usl4j]: https://codahale.com/usl4j-and-you/
