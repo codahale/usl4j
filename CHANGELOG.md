@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.5.2: 2017-07-16
+
+* Upgraded DDogleg.
+
 ## v0.5.1: 2017-04-27
 
 * Added bounds checking for building measurements from `double[]` instances.
