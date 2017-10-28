@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.5.3: 2017-10-27
+
+* Fixed argument transposition in `Measurement.ofThroughput().andConcurency(double, double)`.
+
 ## v0.5.2: 2017-07-16
 
 * Upgraded DDogleg.
