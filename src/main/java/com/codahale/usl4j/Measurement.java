@@ -137,7 +137,7 @@ public abstract class Measurement {
      * @return a {@link Measurement}
      */
     public Measurement andConcurrency(double throughput, double concurrency) {
-      return Measurement.ofConcurrency().andThroughput(throughput, concurrency);
+      return Measurement.ofConcurrency().andThroughput(concurrency, throughput);
     }
 
     /**

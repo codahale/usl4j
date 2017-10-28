@@ -75,6 +75,6 @@ class MeasurementTest {
     assertEquals(3, b.concurrency(), EPSILON);
 
     final Measurement c = Measurement.ofThroughput().andConcurrency(5, 3);
-    assertEquals(1.0 + 2.0 / 3.0, c.latency(), EPSILON);
+    assertEquals(0.6, c.latency(), EPSILON);
   }
 }

@@ -138,7 +138,7 @@ class ModelTest {
   void concurrencyAtLatency() throws Exception {
     // going off page 30-31
     final Model model = Arrays.stream(CISCO).limit(10)
-                              .map(Measurement.ofThroughput()::andConcurrency)
+                              .map(Measurement.ofConcurrency()::andThroughput)
                               .collect(Model.toModel());
     assertEquals(7.230628979597649, model.concurrencyAtLatency(0.0012), EPSILON);
     assertEquals(20.25106409917121, model.concurrencyAtLatency(0.0016), EPSILON);
@@ -154,6 +154,6 @@ class ModelTest {
 
   // assert that the actual value is within 0.02% of the expected value
   private void assertClose(double expected, double actual) {
-    assertEquals(actual, expected, expected * 2.0E-4);
+    assertEquals(expected, actual, expected * 2.0E-4);
   }
 }
