@@ -36,7 +36,7 @@ import org.openjdk.jmh.runner.RunnerException;
 @BenchmarkMode(Mode.AverageTime)
 public class Benchmarks {
 
-  private List<Measurement> input;
+  private List<Measurement> input = new ArrayList<>();
 
   @Param({"10", "100", "1000", "10000"})
   private int size = 10;
