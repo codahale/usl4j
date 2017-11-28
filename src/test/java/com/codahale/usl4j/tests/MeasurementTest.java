@@ -29,17 +29,15 @@ class MeasurementTest {
   void badPoints() {
     final double[] p = new double[3];
 
-    assertThrows(IllegalArgumentException.class,
-        () -> Measurement.ofConcurrency().andLatency(p));
+    assertThrows(IllegalArgumentException.class, () -> Measurement.ofConcurrency().andLatency(p));
 
-    assertThrows(IllegalArgumentException.class,
-        () -> Measurement.ofConcurrency().andThroughput(p));
+    assertThrows(
+        IllegalArgumentException.class, () -> Measurement.ofConcurrency().andThroughput(p));
 
-    assertThrows(IllegalArgumentException.class,
-        () -> Measurement.ofThroughput().andLatency(p));
+    assertThrows(IllegalArgumentException.class, () -> Measurement.ofThroughput().andLatency(p));
 
-    assertThrows(IllegalArgumentException.class,
-        () -> Measurement.ofThroughput().andConcurrency(p));
+    assertThrows(
+        IllegalArgumentException.class, () -> Measurement.ofThroughput().andConcurrency(p));
   }
 
   @Test
@@ -62,7 +60,7 @@ class MeasurementTest {
     final Measurement a = Measurement.ofConcurrency().andLatency(3, 0.6);
     assertEquals(5, a.throughput(), EPSILON);
 
-    final Measurement b = Measurement.ofConcurrency().andLatency(new double[]{3, 0.6});
+    final Measurement b = Measurement.ofConcurrency().andLatency(new double[] {3, 0.6});
     assertEquals(5, b.throughput(), EPSILON);
   }
 
@@ -71,7 +69,7 @@ class MeasurementTest {
     final Measurement a = Measurement.ofThroughput().andLatency(5, 0.6);
     assertEquals(3, a.concurrency(), EPSILON);
 
-    final Measurement b = Measurement.ofThroughput().andLatency(new double[]{5, 0.6});
+    final Measurement b = Measurement.ofThroughput().andLatency(new double[] {5, 0.6});
     assertEquals(3, b.concurrency(), EPSILON);
 
     final Measurement c = Measurement.ofThroughput().andConcurrency(5, 3);

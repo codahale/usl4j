@@ -29,9 +29,7 @@ import org.ddogleg.optimization.UnconstrainedLeastSquares;
 import org.ddogleg.optimization.UtilOptimize;
 import org.ddogleg.optimization.functions.FunctionNtoM;
 
-/**
- * A parametrized model of the Universal Scalability Law.
- */
+/** A parametrized model of the Universal Scalability Law. */
 @AutoValue
 @Immutable
 public abstract class Model {
@@ -44,10 +42,14 @@ public abstract class Model {
    * @return a {@link Collector} instance
    */
   public static Collector<Measurement, ?, Model> toModel() {
-    return Collector.of(ArrayList::new, List::add, (a, b) -> {
-      a.addAll(b);
-      return a;
-    }, Model::build);
+    return Collector.of(
+        ArrayList::new,
+        List::add,
+        (a, b) -> {
+          a.addAll(b);
+          return a;
+        },
+        Model::build);
   }
 
   /**
@@ -64,10 +66,10 @@ public abstract class Model {
 
   /**
    * Given a collection of measurements, builds a {@link Model}.
-   * <p>
-   * Finds a set of coefficients for the equation {@code y = λx/(1+σ(x-1)+κx(x-1))} which best fit
-   * the observed values using unconstrained least-squares regression. The resulting values for λ,
-   * κ, and σ are the parameters of the returned {@link Model}.
+   *
+   * <p>Finds a set of coefficients for the equation {@code y = λx/(1+σ(x-1)+κx(x-1))} which best
+   * fit the observed values using unconstrained least-squares regression. The resulting values for
+   * λ, κ, and σ are the parameters of the returned {@link Model}.
    *
    * @param measurements a collection of measurements
    * @return a {@link Model} instance
@@ -78,32 +80,38 @@ public abstract class Model {
     }
     // use Levenberg-Marquardt least-squares to determine best fitting coefficients for the model
     final UnconstrainedLeastSquares lm = FactoryOptimization.leastSquaresLM(1e-3, true);
-    lm.setFunction(new FunctionNtoM() {
+    lm.setFunction(
+        new FunctionNtoM() {
 
-      @Override
-      public int getNumOfInputsN() {
-        return 3;
-      }
+          @Override
+          public int getNumOfInputsN() {
+            return 3;
+          }
 
-      @Override
-      public int getNumOfOutputsM() {
-        return measurements.size();
-      }
+          @Override
+          public int getNumOfOutputsM() {
+            return measurements.size();
+          }
 
-      @Override
-      public void process(double[] input, double[] output) {
-        // calculates and returns the residuals for each observation
-        final Model model = Model.of(input[0], input[1], input[2]);
-        for (int i = 0; i < measurements.size(); i++) {
-          final Measurement m = measurements.get(i);
-          output[i] = m.throughput() - model.throughputAtConcurrency(m.concurrency());
-        }
-      }
-    }, null);
+          @Override
+          public void process(double[] input, double[] output) {
+            // calculates and returns the residuals for each observation
+            final Model model = Model.of(input[0], input[1], input[2]);
+            for (int i = 0; i < measurements.size(); i++) {
+              final Measurement m = measurements.get(i);
+              output[i] = m.throughput() - model.throughputAtConcurrency(m.concurrency());
+            }
+          }
+        },
+        null);
     // calculate a best guess of lambda
-    final double l = measurements.stream().mapToDouble(m -> m.throughput() / m.concurrency())
-                                 .max().orElseThrow(IllegalArgumentException::new);
-    lm.initialize(new double[]{0.1, 0.01, l}, 1e-12, 1e-12);
+    final double l =
+        measurements
+            .stream()
+            .mapToDouble(m -> m.throughput() / m.concurrency())
+            .max()
+            .orElseThrow(IllegalArgumentException::new);
+    lm.initialize(new double[] {0.1, 0.01, l}, 1e-12, 1e-12);
 
     // run iterations until we converge or get bored
     if (!UtilOptimize.process(lm, 5_000)) {

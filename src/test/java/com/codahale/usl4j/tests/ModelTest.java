@@ -31,12 +31,39 @@ class ModelTest {
   static final double EPSILON = 0.00001;
   // data of Cisco benchmark from Practical Scalability by Baron Schwartz
   private static final double[][] CISCO = {
-      {1, 955.16}, {2, 1878.91}, {3, 2688.01}, {4, 3548.68}, {5, 4315.54}, {6, 5130.43},
-      {7, 5931.37}, {8, 6531.08}, {9, 7219.8}, {10, 7867.61}, {11, 8278.71}, {12, 8646.7},
-      {13, 9047.84}, {14, 9426.55}, {15, 9645.37}, {16, 9897.24}, {17, 10097.6}, {18, 10240.5},
-      {19, 10532.39}, {20, 10798.52}, {21, 11151.43}, {22, 11518.63}, {23, 11806}, {24, 12089.37},
-      {25, 12075.41}, {26, 12177.29}, {27, 12211.41}, {28, 12158.93}, {29, 12155.27},
-      {30, 12118.04}, {31, 12140.4}, {32, 12074.39}};
+    {1, 955.16},
+    {2, 1878.91},
+    {3, 2688.01},
+    {4, 3548.68},
+    {5, 4315.54},
+    {6, 5130.43},
+    {7, 5931.37},
+    {8, 6531.08},
+    {9, 7219.8},
+    {10, 7867.61},
+    {11, 8278.71},
+    {12, 8646.7},
+    {13, 9047.84},
+    {14, 9426.55},
+    {15, 9645.37},
+    {16, 9897.24},
+    {17, 10097.6},
+    {18, 10240.5},
+    {19, 10532.39},
+    {20, 10798.52},
+    {21, 11151.43},
+    {22, 11518.63},
+    {23, 11806},
+    {24, 12089.37},
+    {25, 12075.41},
+    {26, 12177.29},
+    {27, 12211.41},
+    {28, 12158.93},
+    {29, 12155.27},
+    {30, 12118.04},
+    {31, 12140.4},
+    {32, 12074.39}
+  };
   // listed values of the fitted model from the book
   private static final double BOOK_KAPPA = 7.690945E-4;
   private static final double BOOK_SIGMA = 0.02671591;
@@ -45,9 +72,8 @@ class ModelTest {
   private static final double BOOK_X_MAX = 12341;
 
   // a model built from the Cisco measurements
-  private final Model model = Arrays.stream(CISCO)
-                                    .map(Measurement.ofConcurrency()::andThroughput)
-                                    .collect(Model.toModel());
+  private final Model model =
+      Arrays.stream(CISCO).map(Measurement.ofConcurrency()::andThroughput).collect(Model.toModel());
 
   @Test
   void minMeasurements() {
@@ -56,9 +82,11 @@ class ModelTest {
 
   @Test
   void build() throws Exception {
-    final Model other = Model.build(Arrays.stream(CISCO)
-                                          .map(Measurement.ofConcurrency()::andThroughput)
-                                          .collect(Collectors.toList()));
+    final Model other =
+        Model.build(
+            Arrays.stream(CISCO)
+                .map(Measurement.ofConcurrency()::andThroughput)
+                .collect(Collectors.toList()));
     assertEquals(other.sigma(), model.sigma(), EPSILON);
   }
 
@@ -137,9 +165,11 @@ class ModelTest {
   @Test
   void concurrencyAtLatency() throws Exception {
     // going off page 30-31
-    final Model model = Arrays.stream(CISCO).limit(10)
-                              .map(Measurement.ofConcurrency()::andThroughput)
-                              .collect(Model.toModel());
+    final Model model =
+        Arrays.stream(CISCO)
+            .limit(10)
+            .map(Measurement.ofConcurrency()::andThroughput)
+            .collect(Model.toModel());
     assertEquals(7.230628979597649, model.concurrencyAtLatency(0.0012), EPSILON);
     assertEquals(20.25106409917121, model.concurrencyAtLatency(0.0016), EPSILON);
     assertEquals(29.888882633013246, model.concurrencyAtLatency(0.0020), EPSILON);

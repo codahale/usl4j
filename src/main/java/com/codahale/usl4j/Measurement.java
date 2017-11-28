@@ -76,8 +76,7 @@ public abstract class Measurement {
 
   public static class ConcurrencyBuilder {
 
-    ConcurrencyBuilder() {
-    }
+    ConcurrencyBuilder() {}
 
     /**
      * A {@link Measurement} of a system's throughput with a given number of concurrent workers.
@@ -126,8 +125,7 @@ public abstract class Measurement {
 
   public static class ThroughputBuilder {
 
-    ThroughputBuilder() {
-    }
+    ThroughputBuilder() {}
 
     /**
      * A {@link Measurement} of a system's throughput with a given number of concurrent workers.
