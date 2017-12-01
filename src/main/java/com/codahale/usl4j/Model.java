@@ -41,7 +41,7 @@ public abstract class Model {
    *
    * @return a {@link Collector} instance
    */
-  public static Collector<Measurement, ?, Model> toModel() {
+  public static Collector<Measurement, List<Measurement>, Model> toModel() {
     return Collector.of(
         ArrayList::new,
         List::add,

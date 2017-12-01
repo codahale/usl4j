@@ -81,7 +81,7 @@ class ModelTest {
   }
 
   @Test
-  void build() throws Exception {
+  void build() {
     final Model other =
         Model.build(
             Arrays.stream(CISCO)
@@ -91,63 +91,63 @@ class ModelTest {
   }
 
   @Test
-  void sigma() throws Exception {
+  void sigma() {
     assertClose(BOOK_SIGMA, model.sigma());
   }
 
   @Test
-  void kappa() throws Exception {
+  void kappa() {
     assertClose(BOOK_KAPPA, model.kappa());
   }
 
   @Test
-  void lambda() throws Exception {
+  void lambda() {
     assertClose(BOOK_LAMBDA, model.lambda());
   }
 
   @Test
-  void maxConcurrency() throws Exception {
+  void maxConcurrency() {
     assertClose(BOOK_N_MAX, model.maxConcurrency());
   }
 
   @Test
-  void maxThroughput() throws Exception {
+  void maxThroughput() {
     assertClose(BOOK_X_MAX, model.maxThroughput());
   }
 
   @Test
-  void coherency() throws Exception {
+  void coherency() {
     assertFalse(model.isCoherencyConstrained());
   }
 
   @Test
-  void contention() throws Exception {
+  void contention() {
     assertTrue(model.isContentionConstrained());
   }
 
   @Test
-  void latencyAtConcurrency() throws Exception {
+  void latencyAtConcurrency() {
     assertEquals(0.0010043984982923623, model.latencyAtConcurrency(1), EPSILON);
     assertEquals(0.0018077217982978785, model.latencyAtConcurrency(20), EPSILON);
     assertEquals(0.0028359135486017784, model.latencyAtConcurrency(35), EPSILON);
   }
 
   @Test
-  void throughputAtConcurrency() throws Exception {
+  void throughputAtConcurrency() {
     assertEquals(995.648772003358, model.throughputAtConcurrency(1), EPSILON);
     assertEquals(11063.633137626028, model.throughputAtConcurrency(20), EPSILON);
     assertEquals(12341.7456205207, model.throughputAtConcurrency(35), EPSILON);
   }
 
   @Test
-  void concurrencyAtThroughput() throws Exception {
+  void concurrencyAtThroughput() {
     assertEquals(0.9580998829620233, model.concurrencyAtThroughput(955), EPSILON);
     assertEquals(15.350435172752203, model.concurrencyAtThroughput(11048), EPSILON);
     assertEquals(17.73220762025387, model.concurrencyAtThroughput(12201), EPSILON);
   }
 
   @Test
-  void throughputAtLatency() throws Exception {
+  void throughputAtLatency() {
     final Model model = Model.of(0.06, 0.06, 40);
     assertEquals(69.38886664887109, model.throughputAtLatency(0.03), EPSILON);
     assertEquals(82.91561975888501, model.throughputAtLatency(0.04), EPSILON);
@@ -155,7 +155,7 @@ class ModelTest {
   }
 
   @Test
-  void latencyAtThroughput() throws Exception {
+  void latencyAtThroughput() {
     final Model model = Model.of(0.06, 0.06, 40);
     assertEquals(0.05875, model.latencyAtThroughput(400), EPSILON);
     assertEquals(0.094, model.latencyAtThroughput(500), EPSILON);
@@ -163,7 +163,7 @@ class ModelTest {
   }
 
   @Test
-  void concurrencyAtLatency() throws Exception {
+  void concurrencyAtLatency() {
     // going off page 30-31
     final Model model =
         Arrays.stream(CISCO)
@@ -176,7 +176,7 @@ class ModelTest {
   }
 
   @Test
-  void limitless() throws Exception {
+  void limitless() {
     final Model unlimited = Model.of(1, 0, 40);
     assertTrue(unlimited.isLimitless());
     assertFalse(model.isLimitless());

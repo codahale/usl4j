@@ -41,22 +41,22 @@ class MeasurementTest {
   }
 
   @Test
-  void concurrency() throws Exception {
+  void concurrency() {
     assertEquals(3, measurement.concurrency(), EPSILON);
   }
 
   @Test
-  void throughput() throws Exception {
+  void throughput() {
     assertEquals(5, measurement.throughput(), EPSILON);
   }
 
   @Test
-  void latency() throws Exception {
+  void latency() {
     assertEquals(0.6, measurement.latency(), EPSILON);
   }
 
   @Test
-  void latencyMeasurement() throws Exception {
+  void latencyMeasurement() {
     final Measurement a = Measurement.ofConcurrency().andLatency(3, 0.6);
     assertEquals(5, a.throughput(), EPSILON);
 
@@ -65,7 +65,7 @@ class MeasurementTest {
   }
 
   @Test
-  void throughputMeasurement() throws Exception {
+  void throughputMeasurement() {
     final Measurement a = Measurement.ofThroughput().andLatency(5, 0.6);
     assertEquals(3, a.concurrency(), EPSILON);
 
