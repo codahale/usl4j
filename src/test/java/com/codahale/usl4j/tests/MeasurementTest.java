@@ -15,64 +15,66 @@
 package com.codahale.usl4j.tests;
 
 import static com.codahale.usl4j.tests.ModelTest.EPSILON;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.codahale.usl4j.Measurement;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class MeasurementTest {
+public class MeasurementTest {
 
   private final Measurement measurement = Measurement.ofConcurrency().andThroughput(3, 5);
 
   @Test
-  void badPoints() {
+  public void badPoints() {
     final double[] p = new double[3];
 
-    assertThrows(IllegalArgumentException.class, () -> Measurement.ofConcurrency().andLatency(p));
+    assertThatThrownBy(() -> Measurement.ofConcurrency().andLatency(p))
+        .isInstanceOf(IllegalArgumentException.class);
 
-    assertThrows(
-        IllegalArgumentException.class, () -> Measurement.ofConcurrency().andThroughput(p));
+    assertThatThrownBy(() -> Measurement.ofConcurrency().andThroughput(p))
+        .isInstanceOf(IllegalArgumentException.class);
 
-    assertThrows(IllegalArgumentException.class, () -> Measurement.ofThroughput().andLatency(p));
+    assertThatThrownBy(() -> Measurement.ofThroughput().andLatency(p))
+        .isInstanceOf(IllegalArgumentException.class);
 
-    assertThrows(
-        IllegalArgumentException.class, () -> Measurement.ofThroughput().andConcurrency(p));
+    assertThatThrownBy(() -> Measurement.ofThroughput().andConcurrency(p))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  void concurrency() {
-    assertEquals(3, measurement.concurrency(), EPSILON);
+  public void concurrency() {
+    assertThat(measurement.concurrency()).isCloseTo(3, EPSILON);
   }
 
   @Test
-  void throughput() {
-    assertEquals(5, measurement.throughput(), EPSILON);
+  public void throughput() {
+    assertThat(measurement.throughput()).isCloseTo(5, EPSILON);
   }
 
   @Test
-  void latency() {
-    assertEquals(0.6, measurement.latency(), EPSILON);
+  public void latency() {
+    assertThat(measurement.latency()).isCloseTo(0.6, EPSILON);
   }
 
   @Test
-  void latencyMeasurement() {
+  public void latencyMeasurement() {
     final Measurement a = Measurement.ofConcurrency().andLatency(3, 0.6);
-    assertEquals(5, a.throughput(), EPSILON);
+    assertThat(a.throughput()).isCloseTo(5, EPSILON);
 
     final Measurement b = Measurement.ofConcurrency().andLatency(new double[] {3, 0.6});
-    assertEquals(5, b.throughput(), EPSILON);
+    assertThat(b.throughput()).isCloseTo(5, EPSILON);
   }
 
   @Test
-  void throughputMeasurement() {
+  public void throughputMeasurement() {
     final Measurement a = Measurement.ofThroughput().andLatency(5, 0.6);
-    assertEquals(3, a.concurrency(), EPSILON);
+    assertThat(a.concurrency()).isCloseTo(3, EPSILON);
 
     final Measurement b = Measurement.ofThroughput().andLatency(new double[] {5, 0.6});
-    assertEquals(3, b.concurrency(), EPSILON);
+    assertThat(b.concurrency()).isCloseTo(3, EPSILON);
 
     final Measurement c = Measurement.ofThroughput().andConcurrency(5, 3);
-    assertEquals(0.6, c.latency(), EPSILON);
+    assertThat(c.latency()).isCloseTo(0.6, EPSILON);
   }
 }
