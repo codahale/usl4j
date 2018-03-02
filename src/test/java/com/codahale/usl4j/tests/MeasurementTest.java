@@ -20,14 +20,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.codahale.usl4j.Measurement;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class MeasurementTest {
+class MeasurementTest {
 
   private final Measurement measurement = Measurement.ofConcurrency().andThroughput(3, 5);
 
   @Test
-  public void badPoints() {
+  void badPoints() {
     final double[] p = new double[3];
 
     assertThatThrownBy(() -> Measurement.ofConcurrency().andLatency(p))
@@ -44,22 +44,22 @@ public class MeasurementTest {
   }
 
   @Test
-  public void concurrency() {
+  void concurrency() {
     assertThat(measurement.concurrency()).isCloseTo(3, EPSILON);
   }
 
   @Test
-  public void throughput() {
+  void throughput() {
     assertThat(measurement.throughput()).isCloseTo(5, EPSILON);
   }
 
   @Test
-  public void latency() {
+  void latency() {
     assertThat(measurement.latency()).isCloseTo(0.6, EPSILON);
   }
 
   @Test
-  public void latencyMeasurement() {
+  void latencyMeasurement() {
     final Measurement a = Measurement.ofConcurrency().andLatency(3, 0.6);
     assertThat(a.throughput()).isCloseTo(5, EPSILON);
 
@@ -68,7 +68,7 @@ public class MeasurementTest {
   }
 
   @Test
-  public void throughputMeasurement() {
+  void throughputMeasurement() {
     final Measurement a = Measurement.ofThroughput().andLatency(5, 0.6);
     assertThat(a.concurrency()).isCloseTo(3, EPSILON);
 
