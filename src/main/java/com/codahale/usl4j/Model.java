@@ -23,8 +23,6 @@ import com.google.auto.value.AutoValue;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collector;
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
 import org.ddogleg.optimization.FactoryOptimization;
 import org.ddogleg.optimization.UnconstrainedLeastSquares;
 import org.ddogleg.optimization.UtilOptimize;
@@ -32,7 +30,6 @@ import org.ddogleg.optimization.functions.FunctionNtoM;
 
 /** A parametrized model of the Universal Scalability Law. */
 @AutoValue
-@Immutable
 public abstract class Model {
 
   private static final int MIN_MEASUREMENTS = 6;
@@ -75,7 +72,7 @@ public abstract class Model {
    * @param measurements a collection of measurements
    * @return a {@link Model} instance
    */
-  public static Model build(@Nonnull List<Measurement> measurements) {
+  public static Model build(List<Measurement> measurements) {
     if (measurements.size() < MIN_MEASUREMENTS) {
       throw new IllegalArgumentException("Needs at least 6 measurements");
     }

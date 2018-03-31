@@ -16,14 +16,12 @@
 package com.codahale.usl4j;
 
 import com.google.auto.value.AutoValue;
-import javax.annotation.concurrent.Immutable;
 
 /**
  * A measurement of a system's concurrency, throughput, and latency. Given any two properties, the
  * third will be calculated via Little's Law.
  */
 @AutoValue
-@Immutable
 public abstract class Measurement {
 
   private static final ConcurrencyBuilder WITH_CONCURRENCY = new ConcurrencyBuilder();
