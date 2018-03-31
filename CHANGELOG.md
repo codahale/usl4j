@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.5.4: 2018-03-30
+
+* Dropped dependency on annotations.
+
 ## v0.5.3: 2017-10-27
 
 * Fixed argument transposition in `Measurement.ofThroughput().andConcurency(double, double)`.
