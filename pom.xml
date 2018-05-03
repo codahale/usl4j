@@ -260,10 +260,17 @@
               <artifactId>auto-value</artifactId>
               <version>${auto-value.version}</version>
             </path>
+            <!-- build benchmarks -->
+            <path>
+              <groupId>org.openjdk.jmh</groupId>
+              <artifactId>jmh-generator-annprocess</artifactId>
+              <version>${jmh.version}</version>
+            </path>
           </annotationProcessorPaths>
           <compilerArgs>
             <arg>-Xep:NullAway:ERROR</arg>
             <arg>-XepOpt:NullAway:AnnotatedPackages=com.codahale</arg>
+            <arg>-XepExcludedPaths:.*/target/generated.*</arg>
           </compilerArgs>
         </configuration>
         <dependencies>
