@@ -21,7 +21,7 @@
   <parent>
     <groupId>com.codahale</groupId>
     <artifactId>common-pom</artifactId>
-    <version>0.0.7</version>
+    <version>0.0.8</version>
   </parent>
 
   <artifactId>usl4j</artifactId>
