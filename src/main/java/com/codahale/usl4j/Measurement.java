@@ -16,6 +16,7 @@
 package com.codahale.usl4j;
 
 import com.google.auto.value.AutoValue;
+import org.jetbrains.annotations.Contract;
 
 /**
  * A measurement of a system's concurrency, throughput, and latency. Given any two properties, the
@@ -33,6 +34,7 @@ public abstract class Measurement {
    *
    * @return a builder for measurements of concurrency
    */
+  @Contract(pure = true)
   public static ConcurrencyBuilder ofConcurrency() {
     return WITH_CONCURRENCY;
   }
@@ -42,6 +44,7 @@ public abstract class Measurement {
    *
    * @return a builder for measurements of throughput
    */
+  @Contract(pure = true)
   public static ThroughputBuilder ofThroughput() {
     return WITH_THROUGHPUT;
   }
@@ -57,6 +60,7 @@ public abstract class Measurement {
    *
    * @return {@code N}
    */
+  @Contract(pure = true)
   public abstract double concurrency();
 
   /**
@@ -64,6 +68,7 @@ public abstract class Measurement {
    *
    * @return {@code X}
    */
+  @Contract(pure = true)
   public abstract double throughput();
 
   /**
@@ -71,6 +76,7 @@ public abstract class Measurement {
    *
    * @return {@code R}
    */
+  @Contract(pure = true)
   public abstract double latency();
 
   public static class ConcurrencyBuilder {
@@ -133,6 +139,7 @@ public abstract class Measurement {
      * @param concurrency the number of concurrent workers
      * @return a {@link Measurement}
      */
+    @Contract("_, _ -> new")
     public Measurement andConcurrency(double throughput, double concurrency) {
       return Measurement.ofConcurrency().andThroughput(concurrency, throughput);
     }
@@ -143,6 +150,7 @@ public abstract class Measurement {
      * @param point an array of concurrency/throughput pairs
      * @return a {@link Measurement}
      */
+    @Contract("!null -> new")
     public Measurement andConcurrency(double[] point) {
       checkPoint(point);
       return andConcurrency(point[0], point[1]);
@@ -155,6 +163,7 @@ public abstract class Measurement {
      * @param latency the mean latency, in seconds
      * @return a {@link Measurement}
      */
+    @Contract("_, _ -> new")
     public Measurement andLatency(double throughput, double latency) {
       return new AutoValue_Measurement(throughput * latency, throughput, latency);
     }
@@ -165,6 +174,7 @@ public abstract class Measurement {
      * @param point an array of throughput/latency points
      * @return a {@link Measurement}
      */
+    @Contract("!null -> new")
     public Measurement andLatency(double[] point) {
       checkPoint(point);
       return andLatency(point[0], point[1]);
