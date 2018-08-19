@@ -59,23 +59,45 @@ class MeasurementTest {
   }
 
   @Test
-  void latencyMeasurement() {
-    final Measurement a = Measurement.ofConcurrency().andLatency(3, 0.6);
-    assertThat(a.throughput()).isCloseTo(5, EPSILON);
+  void measurements() {
+    final Measurement cl1 = Measurement.ofConcurrency().andLatency(3, 0.6);
+    assertThat(cl1.concurrency()).isCloseTo(3, EPSILON);
+    assertThat(cl1.latency()).isCloseTo(0.6, EPSILON);
+    assertThat(cl1.throughput()).isCloseTo(5, EPSILON);
 
-    final Measurement b = Measurement.ofConcurrency().andLatency(new double[] {3, 0.6});
-    assertThat(b.throughput()).isCloseTo(5, EPSILON);
-  }
+    final Measurement cl2 = Measurement.ofConcurrency().andLatency(new double[] {3, 0.6});
+    assertThat(cl2.concurrency()).isCloseTo(3, EPSILON);
+    assertThat(cl2.latency()).isCloseTo(0.6, EPSILON);
+    assertThat(cl2.throughput()).isCloseTo(5, EPSILON);
 
-  @Test
-  void throughputMeasurement() {
-    final Measurement a = Measurement.ofThroughput().andLatency(5, 0.6);
-    assertThat(a.concurrency()).isCloseTo(3, EPSILON);
+    final Measurement ct1 = Measurement.ofConcurrency().andThroughput(3, 5);
+    assertThat(ct1.concurrency()).isCloseTo(3, EPSILON);
+    assertThat(ct1.latency()).isCloseTo(0.6, EPSILON);
+    assertThat(ct1.throughput()).isCloseTo(5, EPSILON);
 
-    final Measurement b = Measurement.ofThroughput().andLatency(new double[] {5, 0.6});
-    assertThat(b.concurrency()).isCloseTo(3, EPSILON);
+    final Measurement ct2 = Measurement.ofConcurrency().andThroughput(new double[] {3, 5});
+    assertThat(ct2.concurrency()).isCloseTo(3, EPSILON);
+    assertThat(ct2.latency()).isCloseTo(0.6, EPSILON);
+    assertThat(ct2.throughput()).isCloseTo(5, EPSILON);
 
-    final Measurement c = Measurement.ofThroughput().andConcurrency(5, 3);
-    assertThat(c.latency()).isCloseTo(0.6, EPSILON);
+    final Measurement tl1 = Measurement.ofThroughput().andLatency(5, 0.6);
+    assertThat(tl1.concurrency()).isCloseTo(3, EPSILON);
+    assertThat(tl1.latency()).isCloseTo(0.6, EPSILON);
+    assertThat(tl1.throughput()).isCloseTo(5, EPSILON);
+
+    final Measurement tl2 = Measurement.ofThroughput().andLatency(new double[] {5, 0.6});
+    assertThat(tl2.concurrency()).isCloseTo(3, EPSILON);
+    assertThat(tl2.latency()).isCloseTo(0.6, EPSILON);
+    assertThat(tl2.throughput()).isCloseTo(5, EPSILON);
+
+    final Measurement tc1 = Measurement.ofThroughput().andConcurrency(5, 3);
+    assertThat(tc1.concurrency()).isCloseTo(3, EPSILON);
+    assertThat(tc1.latency()).isCloseTo(0.6, EPSILON);
+    assertThat(tc1.throughput()).isCloseTo(5, EPSILON);
+
+    final Measurement tc2 = Measurement.ofThroughput().andConcurrency(new double[] {5, 3});
+    assertThat(tc2.concurrency()).isCloseTo(3, EPSILON);
+    assertThat(tc2.latency()).isCloseTo(0.6, EPSILON);
+    assertThat(tc2.throughput()).isCloseTo(5, EPSILON);
   }
 }
