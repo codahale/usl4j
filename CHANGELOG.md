@@ -1,5 +1,11 @@
 # Change Log
 
+## v0.6.0: 2018-09-25
+
+* Moved away from AutoValue classes to more regular API.
+* Dropped JSR-250 annotation dependency.
+* Upgraded DDogleg.
+
 ## v0.5.4: 2018-03-30
 
 * Dropped dependency on annotations.
