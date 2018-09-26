@@ -1,6 +1,6 @@
 # usl4j
 
-[![Build Status](https://secure.travis-ci.org/codahale/usl4j.svg)](http://travis-ci.org/codahale/usl4j)
+[![CircleCI](https://circleci.com/gh/codahale/usl4j.svg?style=svg)](https://circleci.com/gh/codahale/usl4j)
 
 usl4j is Java modeler for [Dr. Neil Gunther][NJG]'s [Universal Scalability Law][USL] as described by
 [Baron Schwartz][BS] in his book [Practical Scalability Analysis with the Universal Scalability
