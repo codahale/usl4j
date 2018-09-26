@@ -21,11 +21,13 @@ The model coefficients and predictions should be within 0.02% of those listed in
 <dependency>
   <groupId>com.codahale</groupId>
   <artifactId>usl4j</artifactId>
-  <version>0.6.0</version>
+  <version>0.6.1</version>
 </dependency>
 ```
 
 It depends on [DDogleg Numerics][DDogleg] for least-squares regression.
+
+*Note: module name for Java 9+ is `com.codahale.usl4j`.*
 
 ## How to use this
 

@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.6.1: 2018-09-26
+
+* JAR now specifies an automatic module name of `com.codahale.usl4j`.
+
 ## v0.6.0: 2018-09-25
 
 * Moved away from AutoValue classes to more regular API.
