@@ -25,7 +25,7 @@
   </parent>
 
   <artifactId>usl4j</artifactId>
-  <version>0.6.1</version>
+  <version>0.6.2-SNAPSHOT</version>
   <name>usl4j</name>
   <url>https://github.com/codahale/usl4j</url>
   <description>
@@ -38,7 +38,7 @@
     <developerConnection>scm:git:https://github.com/codahale/usl4j.git
     </developerConnection>
     <url>https://github.com/codahale/usl4j</url>
-    <tag>v0.6.1</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <dependencies>
