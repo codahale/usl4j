@@ -21,7 +21,7 @@ The model coefficients and predictions should be within 0.02% of those listed in
 <dependency>
   <groupId>com.codahale</groupId>
   <artifactId>usl4j</artifactId>
-  <version>0.5.4</version>
+  <version>0.6.0</version>
 </dependency>
 ```
 

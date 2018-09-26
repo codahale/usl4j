@@ -15,26 +15,33 @@
  */
 package com.codahale.usl4j;
 
-import com.google.auto.value.AutoValue;
-import org.jetbrains.annotations.Contract;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * A measurement of a system's concurrency, throughput, and latency. Given any two properties, the
  * third will be calculated via Little's Law.
  */
-@AutoValue
-public abstract class Measurement {
+public class Measurement {
 
   private static final ConcurrencyBuilder WITH_CONCURRENCY = new ConcurrencyBuilder();
 
   private static final ThroughputBuilder WITH_THROUGHPUT = new ThroughputBuilder();
+  private final double concurrency;
+  private final double throughput;
+  private final double latency;
+
+  private Measurement(double concurrency, double throughput, double latency) {
+    this.concurrency = concurrency;
+    this.throughput = throughput;
+    this.latency = latency;
+  }
 
   /**
    * Returns a builder for measurements of concurrency.
    *
    * @return a builder for measurements of concurrency
    */
-  @Contract(pure = true)
   public static ConcurrencyBuilder ofConcurrency() {
     return WITH_CONCURRENCY;
   }
@@ -44,7 +51,6 @@ public abstract class Measurement {
    *
    * @return a builder for measurements of throughput
    */
-  @Contract(pure = true)
   public static ThroughputBuilder ofThroughput() {
     return WITH_THROUGHPUT;
   }
@@ -60,24 +66,55 @@ public abstract class Measurement {
    *
    * @return {@code N}
    */
-  @Contract(pure = true)
-  public abstract double concurrency();
+  public double concurrency() {
+    return concurrency;
+  }
 
   /**
    * The throughput of events at the time of measurement.
    *
    * @return {@code X}
    */
-  @Contract(pure = true)
-  public abstract double throughput();
+  public double throughput() {
+    return throughput;
+  }
 
   /**
    * The mean latency at the time of measurement.
    *
    * @return {@code R}
    */
-  @Contract(pure = true)
-  public abstract double latency();
+  public double latency() {
+    return latency;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Measurement that = (Measurement) o;
+    return Double.compare(that.concurrency, concurrency) == 0
+        && Double.compare(that.throughput, throughput) == 0
+        && Double.compare(that.latency, latency) == 0;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(concurrency, throughput, latency);
+  }
+
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", Measurement.class.getSimpleName() + "[", "]")
+        .add("concurrency=" + concurrency)
+        .add("throughput=" + throughput)
+        .add("latency=" + latency)
+        .toString();
+  }
 
   public static class ConcurrencyBuilder {
 
@@ -91,7 +128,7 @@ public abstract class Measurement {
      * @return a {@link Measurement}
      */
     public Measurement andThroughput(double concurrency, double throughput) {
-      return new AutoValue_Measurement(concurrency, throughput, concurrency / throughput);
+      return new Measurement(concurrency, throughput, concurrency / throughput);
     }
 
     /**
@@ -113,7 +150,7 @@ public abstract class Measurement {
      * @return a {@link Measurement}
      */
     public Measurement andLatency(double concurrency, double latency) {
-      return new AutoValue_Measurement(concurrency, concurrency / latency, latency);
+      return new Measurement(concurrency, concurrency / latency, latency);
     }
 
     /**
@@ -139,7 +176,6 @@ public abstract class Measurement {
      * @param concurrency the number of concurrent workers
      * @return a {@link Measurement}
      */
-    @Contract("_, _ -> new")
     public Measurement andConcurrency(double throughput, double concurrency) {
       return Measurement.ofConcurrency().andThroughput(concurrency, throughput);
     }
@@ -150,7 +186,6 @@ public abstract class Measurement {
      * @param point an array of concurrency/throughput pairs
      * @return a {@link Measurement}
      */
-    @Contract("!null -> new")
     public Measurement andConcurrency(double[] point) {
       checkPoint(point);
       return andConcurrency(point[0], point[1]);
@@ -163,9 +198,8 @@ public abstract class Measurement {
      * @param latency the mean latency, in seconds
      * @return a {@link Measurement}
      */
-    @Contract("_, _ -> new")
     public Measurement andLatency(double throughput, double latency) {
-      return new AutoValue_Measurement(throughput * latency, throughput, latency);
+      return new Measurement(throughput * latency, throughput, latency);
     }
 
     /**
@@ -174,7 +208,6 @@ public abstract class Measurement {
      * @param point an array of throughput/latency points
      * @return a {@link Measurement}
      */
-    @Contract("!null -> new")
     public Measurement andLatency(double[] point) {
       checkPoint(point);
       return andLatency(point[0], point[1]);

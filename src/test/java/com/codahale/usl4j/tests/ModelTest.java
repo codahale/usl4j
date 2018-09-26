@@ -153,7 +153,7 @@ class ModelTest {
 
   @Test
   void throughputAtLatency() {
-    final Model model = Model.of(0.06, 0.06, 40);
+    final Model model = new Model(0.06, 0.06, (double) 40);
     assertThat(model.throughputAtLatency(0.03)).isCloseTo(69.38886664887109, EPSILON);
     assertThat(model.throughputAtLatency(0.04)).isCloseTo(82.91561975888501, EPSILON);
     assertThat(model.throughputAtLatency(0.05)).isCloseTo(84.06346808612327, EPSILON);
@@ -161,7 +161,7 @@ class ModelTest {
 
   @Test
   void latencyAtThroughput() {
-    final Model model = Model.of(0.06, 0.06, 40);
+    final Model model = new Model(0.06, 0.06, (double) 40);
     assertThat(model.latencyAtThroughput(400)).isCloseTo(0.05875, EPSILON);
     assertThat(model.latencyAtThroughput(500)).isCloseTo(0.094, EPSILON);
     assertThat(model.latencyAtThroughput(600)).isCloseTo(0.235, EPSILON);
@@ -182,7 +182,7 @@ class ModelTest {
 
   @Test
   void limitless() {
-    final Model unlimited = Model.of(1, 0, 40);
+    final Model unlimited = new Model((double) 1, (double) 0, (double) 40);
     assertThat(unlimited.isLimitless()).isTrue();
     assertThat(model.isLimitless()).isFalse();
   }

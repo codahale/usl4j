@@ -19,9 +19,10 @@ import static java.lang.Math.floor;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
-import com.google.auto.value.AutoValue;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.stream.Collector;
 import org.ddogleg.optimization.FactoryOptimization;
 import org.ddogleg.optimization.UnconstrainedLeastSquares;
@@ -29,10 +30,25 @@ import org.ddogleg.optimization.UtilOptimize;
 import org.ddogleg.optimization.functions.FunctionNtoM;
 
 /** A parametrized model of the Universal Scalability Law. */
-@AutoValue
-public abstract class Model {
+public class Model {
 
   private static final int MIN_MEASUREMENTS = 6;
+  private final double sigma;
+  private final double kappa;
+  private final double lambda;
+
+  /**
+   * Creates a model given the three parameters: σ, κ, and λ.
+   *
+   * @param sigma the coefficient of contention
+   * @param kappa the coefficient of crosstalk (coherence)
+   * @param lambda the throughput of the system given a single worker
+   */
+  public Model(double sigma, double kappa, double lambda) {
+    this.sigma = sigma;
+    this.kappa = kappa;
+    this.lambda = lambda;
+  }
 
   /**
    * A collector which will convert a stream of {@link Measurement} instances into a {@link Model}.
@@ -48,18 +64,6 @@ public abstract class Model {
           return a;
         },
         Model::build);
-  }
-
-  /**
-   * Creates a model given the three parameters: σ, κ, and λ.
-   *
-   * @param sigma the coefficient of contention
-   * @param kappa the coefficient of crosstalk (coherence)
-   * @param lambda the throughput of the system given a single worker
-   * @return a {@link Model} instance
-   */
-  public static Model of(double sigma, double kappa, double lambda) {
-    return new AutoValue_Model(sigma, kappa, lambda);
   }
 
   /**
@@ -94,7 +98,7 @@ public abstract class Model {
           @Override
           public void process(double[] input, double[] output) {
             // calculates and returns the residuals for each observation
-            final Model model = Model.of(input[0], input[1], input[2]);
+            final Model model = new Model(input[0], input[1], input[2]);
             for (int i = 0; i < measurements.size(); i++) {
               final Measurement m = measurements.get(i);
               output[i] = m.throughput() - model.throughputAtConcurrency(m.concurrency());
@@ -102,6 +106,7 @@ public abstract class Model {
           }
         },
         null);
+
     // calculate a best guess of lambda
     final double l =
         measurements
@@ -117,7 +122,7 @@ public abstract class Model {
     }
 
     final double[] parameters = lm.getParameters();
-    return Model.of(parameters[0], parameters[1], parameters[2]);
+    return new Model(parameters[0], parameters[1], parameters[2]);
   }
 
   /**
@@ -125,21 +130,27 @@ public abstract class Model {
    *
    * @return {@code σ}
    */
-  public abstract double sigma();
+  public double sigma() {
+    return sigma;
+  }
 
   /**
    * The model's coefficient of crosstalk/coherency.
    *
    * @return {@code κ}
    */
-  public abstract double kappa();
+  public double kappa() {
+    return kappa;
+  }
 
   /**
    * The model's coefficient of performance.
    *
    * @return {@code λ}
    */
-  public abstract double lambda();
+  public double lambda() {
+    return lambda;
+  }
 
   /**
    * The expected throughput given a number of concurrent workers.
@@ -149,7 +160,7 @@ public abstract class Model {
    * @see "Practical Scalability Analysis with the Universal Scalability Law, Equation 3"
    */
   public double throughputAtConcurrency(double n) {
-    return (lambda() * n) / (1 + (sigma() * (n - 1)) + (kappa() * n * (n - 1)));
+    return (lambda * n) / (1 + (sigma * (n - 1)) + (kappa * n * (n - 1)));
   }
 
   /**
@@ -160,7 +171,7 @@ public abstract class Model {
    * @see "Practical Scalability Analysis with the Universal Scalability Law, Equation 6"
    */
   public double latencyAtConcurrency(double n) {
-    return (1 + (sigma() * (n - 1)) + (kappa() * n * (n - 1))) / lambda();
+    return (1 + (sigma * (n - 1)) + (kappa * n * (n - 1))) / lambda;
   }
 
   /**
@@ -170,7 +181,7 @@ public abstract class Model {
    * @see "Practical Scalability Analysis with the Universal Scalability Law, Equation 4"
    */
   public double maxConcurrency() {
-    return floor(sqrt((1 - sigma()) / kappa()));
+    return floor(sqrt((1 - sigma) / kappa));
   }
 
   /**
@@ -190,7 +201,7 @@ public abstract class Model {
    * @see "Practical Scalability Analysis with the Universal Scalability Law, Equation 8"
    */
   public double latencyAtThroughput(double x) {
-    return (sigma() - 1) / (sigma() * x - lambda());
+    return (sigma - 1) / (sigma * x - lambda);
   }
 
   /**
@@ -201,9 +212,9 @@ public abstract class Model {
    * @see "Practical Scalability Analysis with the Universal Scalability Law, Equation 9"
    */
   public double throughputAtLatency(double r) {
-    final double a = 2 * kappa() * (2 * lambda() * r + sigma() - 2);
-    final double b = sqrt(pow(sigma(), 2) + pow(kappa(), 2) + a);
-    return (b - kappa() + sigma()) / (2.0 * kappa() * r);
+    final double a = 2 * kappa * (2 * lambda * r + sigma - 2);
+    final double b = sqrt(pow(sigma, 2) + pow(kappa, 2) + a);
+    return (b - kappa + sigma) / (2.0 * kappa * r);
   }
 
   /**
@@ -214,9 +225,9 @@ public abstract class Model {
    * @see "Practical Scalability Analysis with the Universal Scalability Law, Equation 10"
    */
   public double concurrencyAtLatency(double r) {
-    final double a = (2 * kappa() * ((2 * lambda() * r) + sigma() - 2));
-    final double b = sqrt(pow(sigma(), 2) + pow(kappa(), 2) + a);
-    return (kappa() - sigma() + b) / (2 * kappa());
+    final double a = (2 * kappa * ((2 * lambda * r) + sigma - 2));
+    final double b = sqrt(pow(sigma, 2) + pow(kappa, 2) + a);
+    return (kappa - sigma + b) / (2 * kappa);
   }
 
   /**
@@ -235,7 +246,7 @@ public abstract class Model {
    * @return σ {@literal <} κ
    */
   public boolean isCoherencyConstrained() {
-    return sigma() < kappa();
+    return sigma < kappa;
   }
 
   /**
@@ -244,7 +255,7 @@ public abstract class Model {
    * @return σ {@literal >} κ
    */
   public boolean isContentionConstrained() {
-    return sigma() > kappa();
+    return sigma > kappa;
   }
 
   /**
@@ -253,6 +264,34 @@ public abstract class Model {
    * @return κ = 0
    */
   public boolean isLimitless() {
-    return kappa() == 0;
+    return kappa == 0;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Model model = (Model) o;
+    return Double.compare(model.sigma, sigma) == 0
+        && Double.compare(model.kappa, kappa) == 0
+        && Double.compare(model.lambda, lambda) == 0;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(sigma, kappa, lambda);
+  }
+
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", Model.class.getSimpleName() + "[", "]")
+        .add("sigma=" + sigma)
+        .add("kappa=" + kappa)
+        .add("lambda=" + lambda)
+        .toString();
   }
 }

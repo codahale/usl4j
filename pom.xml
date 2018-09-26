@@ -21,11 +21,11 @@
   <parent>
     <groupId>com.codahale</groupId>
     <artifactId>common-pom</artifactId>
-    <version>0.0.9</version>
+    <version>0.0.11</version>
   </parent>
 
   <artifactId>usl4j</artifactId>
-  <version>0.5.5-SNAPSHOT</version>
+  <version>0.6.0-SNAPSHOT</version>
   <name>usl4j</name>
   <url>https://github.com/codahale/usl4j</url>
   <description>
@@ -42,15 +42,6 @@
   </scm>
 
   <dependencies>
-    <dependency>
-      <groupId>com.google.auto.value</groupId>
-      <artifactId>auto-value</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.auto.value</groupId>
-      <artifactId>auto-value-annotations</artifactId>
-    </dependency>
     <dependency>
       <groupId>org.ddogleg</groupId>
       <artifactId>ddogleg</artifactId>
