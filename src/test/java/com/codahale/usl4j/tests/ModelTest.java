@@ -140,8 +140,8 @@ class ModelTest {
   @Test
   void throughputAtConcurrency() {
     assertThat(model.throughputAtConcurrency(1)).isCloseTo(995.648772003358, EPSILON);
-    assertThat(model.throughputAtConcurrency(20)).isCloseTo(11063.633137626028, EPSILON);
-    assertThat(model.throughputAtConcurrency(35)).isCloseTo(12341.7456205207, EPSILON);
+    assertThat(model.throughputAtConcurrency(20)).isCloseTo(11063.63312570436, EPSILON);
+    assertThat(model.throughputAtConcurrency(35)).isCloseTo(12341.745655201905, EPSILON);
   }
 
   @Test
@@ -177,7 +177,7 @@ class ModelTest {
             .collect(Model.toModel());
     assertThat(model.concurrencyAtLatency(0.0012)).isCloseTo(7.230628979597649, EPSILON);
     assertThat(model.concurrencyAtLatency(0.0016)).isCloseTo(20.25106409917121, EPSILON);
-    assertThat(model.concurrencyAtLatency(0.0020)).isCloseTo(29.888882633013246, EPSILON);
+    assertThat(model.concurrencyAtLatency(0.0020)).isCloseTo(29.88889360938781, EPSILON);
   }
 
   @Test

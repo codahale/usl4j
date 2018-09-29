@@ -81,7 +81,7 @@ public class Model {
       throw new IllegalArgumentException("Needs at least 6 measurements");
     }
     // use Levenberg-Marquardt least-squares to determine best fitting coefficients for the model
-    final UnconstrainedLeastSquares<?> lm = FactoryOptimization.leastSquaresLM(1e-3, true);
+    final UnconstrainedLeastSquares<?> lm = FactoryOptimization.levenbergMarquardt(null, true);
     lm.setFunction(
         new FunctionNtoM() {
 
