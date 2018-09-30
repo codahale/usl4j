@@ -120,9 +120,7 @@ public class Model {
     if (!UtilOptimize.process(lm, 5_000)) {
       throw new IllegalArgumentException("Unable to build a model for these values");
     }
-
-    final double[] parameters = lm.getParameters();
-    return new Model(parameters[0], parameters[1], parameters[2]);
+    return new Model(lm.getParameters()[0], lm.getParameters()[1], lm.getParameters()[2]);
   }
 
   /**
