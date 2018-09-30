@@ -25,8 +25,8 @@ import java.util.StringJoiner;
 public class Measurement {
 
   private static final ConcurrencyBuilder WITH_CONCURRENCY = new ConcurrencyBuilder();
-
   private static final ThroughputBuilder WITH_THROUGHPUT = new ThroughputBuilder();
+
   private final double concurrency;
   private final double throughput;
   private final double latency;
