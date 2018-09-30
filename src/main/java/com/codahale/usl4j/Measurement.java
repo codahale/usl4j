@@ -96,7 +96,7 @@ public class Measurement {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Measurement that = (Measurement) o;
+    final Measurement that = (Measurement) o;
     return Double.compare(that.concurrency, concurrency) == 0
         && Double.compare(that.throughput, throughput) == 0
         && Double.compare(that.latency, latency) == 0;

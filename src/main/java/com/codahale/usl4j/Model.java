@@ -273,7 +273,7 @@ public class Model {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Model model = (Model) o;
+    final Model model = (Model) o;
     return Double.compare(model.sigma, sigma) == 0
         && Double.compare(model.kappa, kappa) == 0
         && Double.compare(model.lambda, lambda) == 0;
