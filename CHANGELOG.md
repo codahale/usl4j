@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.7.0: 2018-09-29
+
+* Upgraded to DDogleg 0.15, which features a new non-linear solver.
+
 ## v0.6.1: 2018-09-26
 
 * JAR now specifies an automatic module name of `com.codahale.usl4j`.
