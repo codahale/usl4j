@@ -93,9 +93,10 @@ public class Measurement {
     if (this == o) {
       return true;
     }
-    if (o == null || getClass() != o.getClass()) {
+    if (!(o instanceof Measurement)) {
       return false;
     }
+
     final Measurement that = (Measurement) o;
     return Double.compare(that.concurrency, concurrency) == 0
         && Double.compare(that.throughput, throughput) == 0
