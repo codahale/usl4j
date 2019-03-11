@@ -32,9 +32,9 @@ public class Measurement {
   private final double latency;
 
   private Measurement(double concurrency, double throughput, double latency) {
-    this.concurrency = concurrency;
-    this.throughput = throughput;
-    this.latency = latency;
+    this.concurrency = checkValue(concurrency);
+    this.throughput = checkValue(throughput);
+    this.latency = checkValue(latency);
   }
 
   /**
@@ -53,6 +53,13 @@ public class Measurement {
    */
   public static ThroughputBuilder ofThroughput() {
     return WITH_THROUGHPUT;
+  }
+
+  private static double checkValue(double value) {
+    if (value < 0) {
+      throw new IllegalArgumentException("value must not be negative");
+    }
+    return value;
   }
 
   private static void checkPoint(double[] point) {
