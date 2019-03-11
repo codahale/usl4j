@@ -109,8 +109,7 @@ public class Model {
 
     // calculate a best guess of lambda
     final double l =
-        measurements
-            .stream()
+        measurements.stream()
             .mapToDouble(m -> m.throughput() / m.concurrency())
             .max()
             .orElseThrow(IllegalArgumentException::new);
